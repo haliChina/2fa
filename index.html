@@ -208,7 +208,7 @@
 <body>
 
 <div class="wrapper">
-  <div class="page-title">2FA Authenticator</div>
+  <div class="page-title">2FA Authenticator - 2FA 验证器</div>
 
   <div class="container">
     <div class="input-group">
@@ -218,7 +218,7 @@
 
     <div id="codeArea" class="code-area hidden">
       <div class="code-card" id="codeCard">
-        <div id="tooltip" class="tooltip">点击复制</div>
+        <div id="tooltip" class="tooltip">复制</div>
         <div id="codeBox" class="code-display">000000</div>
         <div class="timer-text" id="timerBox">即将更新...</div>
       </div>
@@ -253,7 +253,7 @@
       
       navigator.clipboard.writeText(text).then(() => {
         const oldText = tooltipEl.textContent;
-        tooltipEl.textContent = '✅ 已复制';
+        tooltipEl.textContent = '已复制';
         tooltipEl.style.opacity = '1';
         setTimeout(() => {
           tooltipEl.textContent = oldText;
@@ -307,7 +307,6 @@
       const timeLeft = 30 - second;
       const progress = (timeLeft / 30) * 100;
 
-      // 实时更新 Hash
       if (secret.length > 0) {
         clearBtn.classList.add('visible');
         const newHash = '#' + encodeURIComponent(secret);
@@ -324,9 +323,7 @@
         return;
       }
 
-      // 更新进度条
       progressBar.style.width = `${progress}%`;
-      // 颜色根据剩余时间变化
       if (timeLeft <= 5) {
         progressBar.style.background = 'var(--error-color)';
       } else {
@@ -352,7 +349,6 @@
       }
     }
 
-    // 初始从 Hash 加载
     const hashSecret = decodeURIComponent(window.location.hash.substring(1));
     if (hashSecret) {
       secretInput.value = hashSecret;
@@ -360,7 +356,7 @@
     }
 
     setInterval(update, 1000);
-    update(); // 立即执行一次
+    update();
     secretInput.addEventListener('input', update);
   });
 </script>
