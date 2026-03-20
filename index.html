@@ -1,0 +1,237 @@
+
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>2FA 验证码生成器</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+    }
+    body {
+      background: #fff;
+      font-family: sans-serif;
+    }
+    .wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 1rem;
+    }
+    .page-title {
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: #222;
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+    .container {
+      border: 2px solid #999;
+      border-radius: 12px;
+      padding: 1.5rem;
+      background: #fefefe;
+      width: 100%;
+      max-width: 400px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .card {
+      position: relative;
+      overflow: visible;
+      border: 2px solid #ccc;
+      border-radius: 10px;
+      background: #f9f9f9;
+      margin: 1rem 0;
+      width: 200px;
+      text-align: center;
+    }
+    .tooltip {
+      position: absolute;
+      bottom: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #333;
+      color: #fff;
+      padding: 4px 8px;
+      font-size: 0.75rem;
+      border-radius: 4px;
+      margin-bottom: 6px;
+      white-space: nowrap;
+      z-index: 9999;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s;
+    }
+    .tooltip.visible {
+      opacity: 1;
+    }
+    .code {
+      font-size: 1.25rem;
+      font-family: monospace;
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+      transition: color 0.3s;
+    }
+    .code.invalid {
+      color: #d93025;
+    }
+    .timer {
+      font-size: 1rem;
+      color: #555;
+      padding: 0.5rem;
+    }
+    input {
+      width: 100%;
+      padding: 0.6rem 1rem;
+      font-size: 1rem;
+      margin-top: 0.5rem;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      box-sizing: border-box;
+    }
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+<div class="wrapper">
+  <div class="page-title">2FA 验证码生成器</div>
+
+  <div class="container">
+    <input type="text" id="secret" placeholder="请输入 2FA 码" value="" />
+    <div id="codeArea" class="hidden">
+      <div class="card" id="codeCard">
+        <div id="tooltip" class="tooltip">点击复制</div>
+        <div id="codeBox" class="code">000000</div>
+      </div>
+      <div class="card timer" id="timerBox">剩余：0 秒</div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const codeCard = document.getElementById('codeCard');
+    const tooltipEl = document.getElementById('tooltip');
+    const codeBox = document.getElementById('codeBox');
+    const timerBox = document.getElementById('timerBox');
+    const secretInput = document.getElementById('secret');
+    const codeArea = document.getElementById('codeArea');
+
+    codeCard.addEventListener('mouseover', () => {
+      tooltipEl.textContent = '点击复制';
+      tooltipEl.classList.add('visible');
+    });
+
+    codeCard.addEventListener('mouseout', () => {
+      tooltipEl.classList.remove('visible');
+    });
+
+    codeCard.addEventListener('click', () => {
+      navigator.clipboard.writeText(codeBox.textContent).then(() => {
+        tooltipEl.textContent = '✅ 已复制';
+      }).catch(() => {
+        tooltipEl.textContent = '❌ 无法复制';
+      });
+    });
+
+    function isValidBase32(secret) {
+      const clean = secret.toUpperCase().replace(/\s/g, '');
+      return clean.length > 0 && /^[A-Z2-7]+=*$/.test(clean);
+    }
+
+    function base32ToBytes(base32) {
+      const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
+      let bits = '';
+      base32 = base32.toUpperCase().replace(/\s/g, '').replace(/=+$/, '');
+      for (let i = 0; i < base32.length; i++) {
+        const val = alphabet.indexOf(base32[i]);
+        if (val === -1) continue;
+        bits += val.toString(2).padStart(5, '0');
+      }
+      const bytes = [];
+      for (let i = 0; i + 8 <= bits.length; i += 8) {
+        bytes.push(parseInt(bits.slice(i, i + 8), 2));
+      }
+      return new Uint8Array(bytes);
+    }
+
+    async function generateTOTP(secret, time = Date.now(), period = 30) {
+      const key = base32ToBytes(secret);
+      if (key.length === 0) return '000000';
+      const counter = Math.floor(time / 1000 / period);
+      const buffer = new ArrayBuffer(8);
+      new DataView(buffer).setBigUint64(0, BigInt(counter));
+      const cryptoKey = await crypto.subtle.importKey('raw', key, { name: 'HMAC', hash: 'SHA-1' }, false, ['sign']);
+      const hmac = new Uint8Array(await crypto.subtle.sign('HMAC', cryptoKey, buffer));
+      const offset = hmac[hmac.length - 1] & 0xf;
+      const code =
+        ((hmac[offset] & 0x7f) << 24) |
+        ((hmac[offset + 1] & 0xff) << 16) |
+        ((hmac[offset + 2] & 0xff) << 8) |
+        (hmac[offset + 3] & 0xff);
+      return (code % 1000000).toString().padStart(6, '0');
+    }
+
+    async function update() {
+      const secret = secretInput.value.trim();
+      const now = Date.now();
+      const timeLeft = 30 - (Math.floor(now / 1000) % 30);
+
+      // ✅ 实时更新 Hash（无刷新）
+      if (secret.length > 0) {
+        const newHash = '#' + encodeURIComponent(secret);
+        if (window.location.hash !== newHash) {
+          history.replaceState(null, '', newHash);
+        }
+        codeArea.classList.remove('hidden');
+      } else {
+        if (window.location.hash !== '') {
+          history.replaceState(null, '', window.location.pathname);
+        }
+        codeArea.classList.add('hidden');
+        return;
+      }
+
+      if (!isValidBase32(secret)) {
+        codeBox.textContent = '无效密钥';
+        codeBox.classList.add('invalid');
+        timerBox.textContent = '剩余：0 秒';
+        return;
+      }
+
+      try {
+        const code = await generateTOTP(secret, now);
+        codeBox.textContent = code;
+        codeBox.classList.remove('invalid');
+        timerBox.textContent = `剩余：${timeLeft} 秒`;
+      } catch (e) {
+        console.error(e);
+        codeBox.textContent = '生成失败';
+        codeBox.classList.add('invalid');
+        timerBox.textContent = '剩余：0 秒';
+      }
+    }
+
+    // 初始从 Hash 加载密钥
+    const hashSecret = decodeURIComponent(window.location.hash.substring(1));
+    if (hashSecret) {
+      secretInput.value = hashSecret;
+      update();
+    }
+
+    setInterval(update, 1000);
+    secretInput.addEventListener('input', update);
+  });
+</script>
+</body>
+</html>
