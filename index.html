@@ -6,114 +6,226 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>2FA 验证码生成器</title>
   <style>
+    :root {
+      --primary-color: #4f46e5;
+      --bg-gradient: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      --card-bg: rgba(255, 255, 255, 0.8);
+      --text-main: #1f2937;
+      --text-muted: #6b7280;
+      --error-color: #ef4444;
+      --success-color: #10b981;
+    }
+
+    * {
+      box-sizing: border-box;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
     html, body {
       margin: 0;
       padding: 0;
       height: 100%;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     }
+
     body {
-      background: #fff;
-      font-family: sans-serif;
-    }
-    .wrapper {
+      background: var(--bg-gradient);
       display: flex;
-      flex-direction: column;
       align-items: center;
       justify-content: center;
-      min-height: 100vh;
-      padding: 1rem;
+      color: var(--text-main);
     }
-    .page-title {
-      font-size: 1.8rem;
-      font-weight: bold;
-      color: #222;
-      margin-bottom: 1.5rem;
-      text-align: center;
-    }
-    .container {
-      border: 2px solid #999;
-      border-radius: 12px;
-      padding: 1.5rem;
-      background: #fefefe;
+
+    .wrapper {
       width: 100%;
-      max-width: 400px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+      max-width: 440px;
+      padding: 2rem;
     }
-    .card {
-      position: relative;
-      overflow: visible;
-      border: 2px solid #ccc;
-      border-radius: 10px;
-      background: #f9f9f9;
-      margin: 1rem 0;
-      width: 200px;
+
+    .page-title {
+      font-size: 2rem;
+      font-weight: 800;
       text-align: center;
+      margin-bottom: 2rem;
+      background: linear-gradient(to right, #4f46e5, #7c3aed);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: -0.025em;
     }
-    .tooltip {
-      position: absolute;
-      bottom: 100%;
-      left: 50%;
-      transform: translateX(-50%);
-      background: #333;
-      color: #fff;
-      padding: 4px 8px;
-      font-size: 0.75rem;
-      border-radius: 4px;
-      margin-bottom: 6px;
-      white-space: nowrap;
-      z-index: 9999;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.2s;
+
+    .container {
+      background: var(--card-bg);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 24px;
+      padding: 2rem;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
     }
-    .tooltip.visible {
-      opacity: 1;
+
+    .input-group {
+      position: relative;
+      margin-bottom: 1.5rem;
     }
-    .code {
-      font-size: 1.25rem;
-      font-family: monospace;
-      padding: 0.5rem 1rem;
-      cursor: pointer;
-      transition: color 0.3s;
-    }
-    .code.invalid {
-      color: #d93025;
-    }
-    .timer {
-      font-size: 1rem;
-      color: #555;
-      padding: 0.5rem;
-    }
+
     input {
       width: 100%;
-      padding: 0.6rem 1rem;
-      font-size: 1rem;
-      margin-top: 0.5rem;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      box-sizing: border-box;
+      padding: 1rem 1.25rem;
+      font-size: 1.1rem;
+      background: rgba(255, 255, 255, 0.9);
+      border: 2px solid transparent;
+      border-radius: 14px;
+      outline: none;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
     }
+
+    input:focus {
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
+    }
+
+    .clear-btn {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: #e5e7eb;
+      color: #6b7280;
+      border: none;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .clear-btn.visible {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .clear-btn:hover {
+      background: #d1d5db;
+      color: #374151;
+    }
+
+    .code-area {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      animation: fadeIn 0.4s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .code-card {
+      position: relative;
+      background: #fff;
+      border-radius: 18px;
+      padding: 1.5rem;
+      text-align: center;
+      cursor: pointer;
+      border: 1px solid #edf2f7;
+      overflow: hidden;
+    }
+
+    .code-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    }
+
+    .code-card:active {
+      transform: translateY(0);
+    }
+
+    .code-display {
+      font-size: 3rem;
+      font-weight: 700;
+      font-family: 'JetBrains Mono', 'Fira Code', monospace;
+      letter-spacing: 0.1em;
+      color: var(--primary-color);
+      margin: 0.5rem 0;
+    }
+
+    .code-display.invalid {
+      color: var(--error-color);
+      font-size: 1.5rem;
+    }
+
+    .tooltip {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: #374151;
+      color: white;
+      padding: 4px 10px;
+      border-radius: 8px;
+      font-size: 0.75rem;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .code-card:hover .tooltip {
+      opacity: 1;
+    }
+
+    .progress-container {
+      width: 100%;
+      height: 6px;
+      background: #e5e7eb;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      height: 100%;
+      background: var(--primary-color);
+      width: 0%;
+      border-radius: 999px;
+    }
+
+    .timer-text {
+      text-align: center;
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      margin-top: 0.5rem;
+      font-weight: 500;
+    }
+
     .hidden {
-      display: none;
+      display: none !important;
     }
   </style>
 </head>
 <body>
 
 <div class="wrapper">
-  <div class="page-title">2FA 验证码生成器</div>
+  <div class="page-title">2FA Authenticator</div>
 
   <div class="container">
-    <input type="text" id="secret" placeholder="请输入 2FA 码" value="" />
-    <div id="codeArea" class="hidden">
-      <div class="card" id="codeCard">
+    <div class="input-group">
+      <input type="text" id="secret" placeholder="输入 2FA 密钥 (Base32)" spellcheck="false" autocomplete="off" />
+      <button id="clearBtn" class="clear-btn" title="清空">✕</button>
+    </div>
+
+    <div id="codeArea" class="code-area hidden">
+      <div class="code-card" id="codeCard">
         <div id="tooltip" class="tooltip">点击复制</div>
-        <div id="codeBox" class="code">000000</div>
+        <div id="codeBox" class="code-display">000000</div>
+        <div class="timer-text" id="timerBox">即将更新...</div>
       </div>
-      <div class="card timer" id="timerBox">剩余：0 秒</div>
+
+      <div class="progress-container">
+        <div id="progressBar" class="progress-bar"></div>
+      </div>
     </div>
   </div>
 </div>
@@ -124,23 +236,29 @@
     const tooltipEl = document.getElementById('tooltip');
     const codeBox = document.getElementById('codeBox');
     const timerBox = document.getElementById('timerBox');
+    const progressBar = document.getElementById('progressBar');
     const secretInput = document.getElementById('secret');
+    const clearBtn = document.getElementById('clearBtn');
     const codeArea = document.getElementById('codeArea');
 
-    codeCard.addEventListener('mouseover', () => {
-      tooltipEl.textContent = '点击复制';
-      tooltipEl.classList.add('visible');
-    });
-
-    codeCard.addEventListener('mouseout', () => {
-      tooltipEl.classList.remove('visible');
+    clearBtn.addEventListener('click', () => {
+      secretInput.value = '';
+      update();
+      secretInput.focus();
     });
 
     codeCard.addEventListener('click', () => {
-      navigator.clipboard.writeText(codeBox.textContent).then(() => {
+      const text = codeBox.textContent;
+      if (text === '无效密钥' || text === '生成失败') return;
+      
+      navigator.clipboard.writeText(text).then(() => {
+        const oldText = tooltipEl.textContent;
         tooltipEl.textContent = '✅ 已复制';
-      }).catch(() => {
-        tooltipEl.textContent = '❌ 无法复制';
+        tooltipEl.style.opacity = '1';
+        setTimeout(() => {
+          tooltipEl.textContent = oldText;
+          tooltipEl.style.opacity = '';
+        }, 2000);
       });
     });
 
@@ -185,16 +303,20 @@
     async function update() {
       const secret = secretInput.value.trim();
       const now = Date.now();
-      const timeLeft = 30 - (Math.floor(now / 1000) % 30);
+      const second = Math.floor(now / 1000) % 30;
+      const timeLeft = 30 - second;
+      const progress = (timeLeft / 30) * 100;
 
-      // ✅ 实时更新 Hash（无刷新）
+      // 实时更新 Hash
       if (secret.length > 0) {
+        clearBtn.classList.add('visible');
         const newHash = '#' + encodeURIComponent(secret);
         if (window.location.hash !== newHash) {
           history.replaceState(null, '', newHash);
         }
         codeArea.classList.remove('hidden');
       } else {
+        clearBtn.classList.remove('visible');
         if (window.location.hash !== '') {
           history.replaceState(null, '', window.location.pathname);
         }
@@ -202,10 +324,19 @@
         return;
       }
 
+      // 更新进度条
+      progressBar.style.width = `${progress}%`;
+      // 颜色根据剩余时间变化
+      if (timeLeft <= 5) {
+        progressBar.style.background = 'var(--error-color)';
+      } else {
+        progressBar.style.background = 'var(--primary-color)';
+      }
+
       if (!isValidBase32(secret)) {
         codeBox.textContent = '无效密钥';
         codeBox.classList.add('invalid');
-        timerBox.textContent = '剩余：0 秒';
+        timerBox.textContent = '请检查 Base32 格式';
         return;
       }
 
@@ -213,16 +344,15 @@
         const code = await generateTOTP(secret, now);
         codeBox.textContent = code;
         codeBox.classList.remove('invalid');
-        timerBox.textContent = `剩余：${timeLeft} 秒`;
+        timerBox.textContent = `${timeLeft} 秒后更新`;
       } catch (e) {
-        console.error(e);
         codeBox.textContent = '生成失败';
         codeBox.classList.add('invalid');
-        timerBox.textContent = '剩余：0 秒';
+        timerBox.textContent = '计算错误';
       }
     }
 
-    // 初始从 Hash 加载密钥
+    // 初始从 Hash 加载
     const hashSecret = decodeURIComponent(window.location.hash.substring(1));
     if (hashSecret) {
       secretInput.value = hashSecret;
@@ -230,6 +360,7 @@
     }
 
     setInterval(update, 1000);
+    update(); // 立即执行一次
     secretInput.addEventListener('input', update);
   });
 </script>
