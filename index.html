@@ -171,39 +171,66 @@
 
     .accounts-list {
       margin-bottom: 1.5rem;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.75rem;
+      max-height: 280px;
+      overflow-y: auto;
+      padding-right: 0.5rem;
+    }
+
+    .accounts-list::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .accounts-list::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .accounts-list::-webkit-scrollbar-thumb {
+      background: rgba(0, 0, 0, 0.15);
+      border-radius: 3px;
+    }
+
+    .accounts-list::-webkit-scrollbar-thumb:hover {
+      background: rgba(0, 0, 0, 0.25);
     }
 
     .account-item {
       display: flex;
       align-items: center;
-      padding: 0.875rem 1rem;
+      padding: 0.75rem;
       background: var(--card-bg);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
       border: 1px solid rgba(255, 255, 255, 0.3);
-      border-radius: 14px;
-      margin-bottom: 0.75rem;
+      border-radius: 12px;
       cursor: pointer;
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      transition: all 0.2s ease;
     }
 
     .account-item:hover {
-      transform: translateX(4px);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+      border-color: rgba(79, 70, 229, 0.3);
     }
 
     .account-item.active {
       border-color: var(--primary-color);
-      background: rgba(79, 70, 229, 0.05);
+      background: rgba(79, 70, 229, 0.08);
+      box-shadow: 0 4px 12px rgba(79, 70, 229, 0.2);
     }
 
     .account-info {
       flex: 1;
       min-width: 0;
+      margin-right: 0.25rem;
     }
 
     .account-name {
       font-weight: 600;
+      font-size: 0.85rem;
       color: var(--text-main);
       white-space: nowrap;
       overflow: hidden;
@@ -211,7 +238,7 @@
     }
 
     .account-issuer {
-      font-size: 0.85rem;
+      font-size: 0.75rem;
       color: var(--text-muted);
       white-space: nowrap;
       overflow: hidden;
@@ -223,24 +250,24 @@
       border: none;
       color: #9ca3af;
       cursor: pointer;
-      padding: 0.5rem;
-      border-radius: 8px;
-      width: 48px;
-      height: 48px;
+      padding: 0.25rem;
+      border-radius: 6px;
+      width: 32px;
+      height: 32px;
       display: flex;
       align-items: center;
       justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .account-delete svg {
+      width: 16px;
+      height: 16px;
     }
 
     .account-delete:hover {
       background: #fef2f2;
       color: var(--danger-color);
-    }
-
-    .account-delete svg {
-      width: 20px;
-      height: 20px;
-      fill: currentColor;
     }
 
     .code-area {
@@ -374,6 +401,7 @@
 
       .page-title {
         font-size: 1.5rem;
+        margin-bottom: 1.5rem;
       }
 
       .container {
@@ -381,8 +409,42 @@
         border-radius: 20px;
       }
 
+      .accounts-list {
+        grid-template-columns: 1fr;
+        gap: 0.5rem;
+        max-height: 200px;
+      }
+
+      .account-item {
+        padding: 0.625rem;
+      }
+
+      .account-name {
+        font-size: 0.8rem;
+      }
+
+      .account-issuer {
+        font-size: 0.7rem;
+      }
+
       .code-display {
         font-size: 2.5rem;
+      }
+    }
+
+    @media (max-width: 360px) {
+      .accounts-list {
+        max-height: 160px;
+      }
+
+      .account-delete {
+        width: 28px;
+        height: 28px;
+      }
+
+      .account-delete svg {
+        width: 14px;
+        height: 14px;
       }
     }
   </style>
