@@ -133,12 +133,18 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.2rem;
+      padding: 10px;
     }
 
     .scan-btn:hover {
       background: #e5e7eb;
       color: var(--text-main);
+    }
+
+    .scan-btn svg {
+      width: 100%;
+      height: 100%;
+      fill: currentColor;
     }
 
     .save-btn {
@@ -219,12 +225,22 @@
       cursor: pointer;
       padding: 0.5rem;
       border-radius: 8px;
-      font-size: 1rem;
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .account-delete:hover {
       background: #fef2f2;
       color: var(--danger-color);
+    }
+
+    .account-delete svg {
+      width: 20px;
+      height: 20px;
+      fill: currentColor;
     }
 
     .code-area {
@@ -389,7 +405,7 @@
       <input type="text" id="accountName" placeholder="账户名称 (可选)" spellcheck="false" autocomplete="off" />
     </div>
     <div class="actions">
-      <button class="scan-btn" id="scanBtn" title="扫描二维码">📷</button>
+      <button class="scan-btn" id="scanBtn" title="扫描二维码"><svg enable-background="new 0 0 32 32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><g id="name_tag"><path d="m21.001 24.001h-10.001c-1.654 0-3-1.346-3-3v-10c0-1.654 1.346-3 3-3h10c1.654 0 3 1.346 3 3v10c.001 1.654-1.345 3-2.999 3zm-16.001-14c.552 0 1-.448 1-1v-2c0-.551.449-1 1-1h2c.552 0 1-.448 1-1s-.448-1-1-1h-2c-1.654 0-3 1.346-3 3v2c0 .552.448 1 1 1zm20-6h-2c-.553 0-1 .448-1 1s.447 1 1 1h2c.552 0 1 .449 1 1v2c0 .552.447 1 1 1s1-.448 1-1v-2c0-1.654-1.346-3-3-3zm-16 21.999h-2c-.551 0-1-.448-1-1v-2c0-.553-.448-1-1-1s-1 .447-1 1v2c0 1.654 1.346 3 3 3h2c.552 0 1-.447 1-1s-.447-1-1-1zm18-4c-.553 0-1 .447-1 1v2c0 .552-.448 1-1 1h-2c-.553 0-1 .447-1 1s.447 1 1 1h2c1.654 0 3-1.346 3-3v-2c0-.553-.447-1-1-1z"/></g></svg></button>
       <button class="save-btn" id="saveBtn">保存账户 (输入秘钥可临时使用)</button>
     </div>
     <input type="file" id="fileInput" accept="image/*" />
@@ -504,7 +520,7 @@
             <div class="account-name">${escapeHtml(account.name)}</div>
             <div class="account-issuer">${escapeHtml(account.issuer || '手动添加')}</div>
           </div>
-          <button class="account-delete" data-id="${account.id}" title="删除">✕</button>
+          <button class="account-delete" data-id="${account.id}" title="删除"><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 501.333 501.333" style="enable-background:new 0 0 501.333 501.333;" xml:space="preserve"><g><g><path d="M425.6,71.467h-78.933V21.333C346.667,9.6,337.067,0,325.333,0H177.067c-11.733,0-21.333,9.6-21.333,21.333v50.133h-80 C64,71.467,54.4,81.067,54.4,92.8v84.267C54.4,188.8,64,198.4,75.733,198.4h14.933l28.8,283.733 c1.067,10.667,9.6,19.2,20.267,19.2H361.6c10.667,0,20.267-8.533,22.4-19.2L411.733,198.4H425.6 c11.733,0,20.267-9.6,21.333-21.333V92.8C446.933,81.067,437.333,71.467,425.6,71.467z M197.333,41.6H304v29.867H197.333V41.6z M343.467,459.733H158.934L132.267,198.4h236.8L343.467,459.733z M405.333,155.733H97.067v-42.667h308.267V155.733z"/></g></g></svg></button>
         </div>
       `).join('');
 
