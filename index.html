@@ -1,10 +1,10 @@
-
 <!DOCTYPE html>
 <html lang="zh">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>2FA 验证码生成器</title>
+  <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
   <style>
     :root {
       --primary-color: #4f46e5;
@@ -14,6 +14,7 @@
       --text-muted: #6b7280;
       --error-color: #ef4444;
       --success-color: #10b981;
+      --danger-color: #dc2626;
     }
 
     * {
@@ -61,14 +62,15 @@
       border-radius: 24px;
       padding: 2rem;
       box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+      margin-bottom: 1.5rem;
     }
 
     .input-group {
       position: relative;
-      margin-bottom: 1.5rem;
+      margin-bottom: 1rem;
     }
 
-    input {
+    input[type="text"] {
       width: 100%;
       padding: 1rem 1.25rem;
       font-size: 1.1rem;
@@ -79,7 +81,7 @@
       box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
     }
 
-    input:focus {
+    input[type="text"]:focus {
       border-color: var(--primary-color);
       box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
     }
@@ -114,6 +116,117 @@
       color: #374151;
     }
 
+    .actions {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+    }
+
+    .scan-btn {
+      background: #f3f4f6;
+      color: var(--text-muted);
+      border: none;
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+    }
+
+    .scan-btn:hover {
+      background: #e5e7eb;
+      color: var(--text-main);
+    }
+
+    .save-btn {
+      flex: 1;
+      padding: 0.875rem 1rem;
+      font-size: 0.95rem;
+      font-weight: 600;
+      background: var(--primary-color);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+    }
+
+    .save-btn:hover {
+      background: #4338ca;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(79, 70, 229, 0.4);
+    }
+
+    #fileInput {
+      display: none;
+    }
+
+    .accounts-list {
+      margin-bottom: 1.5rem;
+    }
+
+    .account-item {
+      display: flex;
+      align-items: center;
+      padding: 0.875rem 1rem;
+      background: var(--card-bg);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 14px;
+      margin-bottom: 0.75rem;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+
+    .account-item:hover {
+      transform: translateX(4px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .account-item.active {
+      border-color: var(--primary-color);
+      background: rgba(79, 70, 229, 0.05);
+    }
+
+    .account-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .account-name {
+      font-weight: 600;
+      color: var(--text-main);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .account-issuer {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .account-delete {
+      background: none;
+      border: none;
+      color: #9ca3af;
+      cursor: pointer;
+      padding: 0.5rem;
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+
+    .account-delete:hover {
+      background: #fef2f2;
+      color: var(--danger-color);
+    }
+
     .code-area {
       display: flex;
       flex-direction: column;
@@ -144,6 +257,12 @@
 
     .code-card:active {
       transform: translateY(0);
+    }
+
+    .code-label {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-bottom: 0.5rem;
     }
 
     .code-display {
@@ -203,22 +322,85 @@
     .hidden {
       display: none !important;
     }
+
+    .toast {
+      position: fixed;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: #374151;
+      color: white;
+      padding: 0.75rem 1.5rem;
+      border-radius: 12px;
+      font-size: 0.95rem;
+      opacity: 0;
+      transition: all 0.3s ease;
+      z-index: 1000;
+    }
+
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+
+    .toast.success {
+      background: var(--success-color);
+    }
+
+    .toast.error {
+      background: var(--error-color);
+    }
+
+    @media (max-width: 480px) {
+      .wrapper {
+        padding: 1rem;
+      }
+
+      .page-title {
+        font-size: 1.5rem;
+      }
+
+      .container {
+        padding: 1.5rem;
+        border-radius: 20px;
+      }
+
+      .code-display {
+        font-size: 2.5rem;
+      }
+    }
   </style>
 </head>
 <body>
 
 <div class="wrapper">
-  <div class="page-title">2FA Authenticator - 2FA 验证器</div>
+  <div class="page-title">2FA Authenticator</div>
 
+  <!-- 已保存账户列表 -->
+  <div id="accountsList" class="accounts-list"></div>
+
+  <!-- 手动输入区域 -->
   <div class="container">
     <div class="input-group">
       <input type="text" id="secret" placeholder="输入 2FA 密钥 (Base32)" spellcheck="false" autocomplete="off" />
       <button id="clearBtn" class="clear-btn" title="清空">✕</button>
     </div>
+    <div class="input-group">
+      <input type="text" id="accountName" placeholder="账户名称 (可选)" spellcheck="false" autocomplete="off" />
+    </div>
+    <div class="actions">
+      <button class="scan-btn" id="scanBtn" title="扫描二维码">📷</button>
+      <button class="save-btn" id="saveBtn">保存账户 (输入秘钥可临时使用)</button>
+    </div>
+    <input type="file" id="fileInput" accept="image/*" />
+  </div>
 
-    <div id="codeArea" class="code-area hidden">
+  <!-- 验证码显示区域 -->
+  <div id="codeArea" class="container hidden">
+    <div class="code-area">
       <div class="code-card" id="codeCard">
         <div id="tooltip" class="tooltip">复制</div>
+        <div id="currentAccountName" class="code-label"></div>
         <div id="codeBox" class="code-display">000000</div>
         <div class="timer-text" id="timerBox">即将更新...</div>
       </div>
@@ -230,6 +412,9 @@
   </div>
 </div>
 
+<!-- Toast 提示 -->
+<div id="toast" class="toast"></div>
+
 <script>
   document.addEventListener('DOMContentLoaded', () => {
     const codeCard = document.getElementById('codeCard');
@@ -238,12 +423,131 @@
     const timerBox = document.getElementById('timerBox');
     const progressBar = document.getElementById('progressBar');
     const secretInput = document.getElementById('secret');
+    const accountNameInput = document.getElementById('accountName');
     const clearBtn = document.getElementById('clearBtn');
     const codeArea = document.getElementById('codeArea');
+    const saveBtn = document.getElementById('saveBtn');
+    const scanBtn = document.getElementById('scanBtn');
+    const accountsList = document.getElementById('accountsList');
+    const fileInput = document.getElementById('fileInput');
+    const currentAccountName = document.getElementById('currentAccountName');
+    const toastEl = document.getElementById('toast');
+
+    let accounts = [];
+    let currentSecret = null;
+    let currentLabel = '';
+
+    const STORAGE_KEY = '2fa_accounts';
+
+    function loadAccounts() {
+      try {
+        const data = localStorage.getItem(STORAGE_KEY);
+        accounts = data ? JSON.parse(data) : [];
+      } catch (e) {
+        accounts = [];
+      }
+      renderAccounts();
+    }
+
+    function saveAccounts() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(accounts));
+    }
+
+    function addAccount(name, secret, issuer = '') {
+      const id = Date.now().toString(36) + Math.random().toString(36).substr(2);
+      const account = {
+        id,
+        name: name || '未命名账户',
+        secret: secret.toUpperCase().replace(/\s/g, ''),
+        issuer
+      };
+      accounts.push(account);
+      saveAccounts();
+      renderAccounts();
+      return account;
+    }
+
+    function deleteAccount(id) {
+      accounts = accounts.filter(a => a.id !== id);
+      saveAccounts();
+      renderAccounts();
+      if (currentSecret) {
+        const acc = accounts.find(a => a.secret === currentSecret);
+        if (!acc) {
+          currentSecret = null;
+          codeArea.classList.add('hidden');
+        }
+      }
+      showToast('账户已删除');
+    }
+
+    function selectAccount(account) {
+      currentSecret = account.secret;
+      currentLabel = account.issuer ? `${account.issuer} - ${account.name}` : account.name;
+      secretInput.value = account.secret;
+      accountNameInput.value = account.name;
+      currentAccountName.textContent = currentLabel;
+      codeArea.classList.remove('hidden');
+      renderAccounts();
+      update();
+    }
+
+    function renderAccounts() {
+      if (accounts.length === 0) {
+        accountsList.innerHTML = '';
+        return;
+      }
+
+      accountsList.innerHTML = accounts.map(account => `
+        <div class="account-item ${currentSecret === account.secret ? 'active' : ''}" data-id="${account.id}">
+          <div class="account-info">
+            <div class="account-name">${escapeHtml(account.name)}</div>
+            <div class="account-issuer">${escapeHtml(account.issuer || '手动添加')}</div>
+          </div>
+          <button class="account-delete" data-id="${account.id}" title="删除">✕</button>
+        </div>
+      `).join('');
+
+      accountsList.querySelectorAll('.account-item').forEach(item => {
+        item.addEventListener('click', (e) => {
+          if (e.target.classList.contains('account-delete')) return;
+          const id = item.dataset.id;
+          const account = accounts.find(a => a.id === id);
+          if (account) selectAccount(account);
+        });
+      });
+
+      accountsList.querySelectorAll('.account-delete').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const id = btn.dataset.id;
+          deleteAccount(id);
+        });
+      });
+    }
+
+    function showToast(message, type = '') {
+      toastEl.textContent = message;
+      toastEl.className = 'toast' + (type ? ' ' + type : '');
+      toastEl.classList.add('show');
+      setTimeout(() => {
+        toastEl.classList.remove('show');
+      }, 2500);
+    }
+
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
 
     clearBtn.addEventListener('click', () => {
       secretInput.value = '';
-      update();
+      accountNameInput.value = '';
+      currentSecret = null;
+      currentLabel = '';
+      codeArea.classList.add('hidden');
+      renderAccounts();
       secretInput.focus();
     });
 
@@ -261,6 +565,114 @@
         }, 2000);
       });
     });
+
+    saveBtn.addEventListener('click', () => {
+      const secret = secretInput.value.trim();
+      const name = accountNameInput.value.trim();
+
+      if (!secret) {
+        showToast('请输入密钥', 'error');
+        return;
+      }
+
+      if (!isValidBase32(secret)) {
+        showToast('密钥格式无效', 'error');
+        return;
+      }
+
+      const account = addAccount(name, secret);
+      selectAccount(account);
+      showToast('账户已保存', 'success');
+    });
+
+    scanBtn.addEventListener('click', () => {
+      fileInput.click();
+    });
+
+    fileInput.addEventListener('change', (e) => {
+      if (e.target.files.length > 0) {
+        handleFile(e.target.files[0]);
+      }
+    });
+
+    function handleFile(file) {
+      if (!file.type.startsWith('image/')) {
+        showToast('请选择图片文件', 'error');
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const img = new Image();
+        img.onload = () => {
+          const canvas = document.createElement('canvas');
+          const ctx = canvas.getContext('2d');
+          canvas.width = img.width;
+          canvas.height = img.height;
+          ctx.drawImage(img, 0, 0);
+
+          const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+          const code = jsQR(imageData.data, imageData.width, imageData.height);
+
+          if (code) {
+            parseOtpAuth(code.data);
+          } else {
+            showToast('未检测到二维码', 'error');
+          }
+        };
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+      fileInput.value = '';
+    }
+
+    function parseOtpAuth(url) {
+      try {
+        const parsed = new URL(url);
+        
+        if (parsed.protocol !== 'otpauth:') {
+          showToast('不是有效的 OTP 链接', 'error');
+          return;
+        }
+
+        const params = parsed.searchParams;
+        const secret = params.get('secret');
+        const issuer = params.get('issuer') || '';
+        
+        let label = decodeURIComponent(parsed.pathname.substring(1));
+        let accountName = label;
+        
+        if (label.includes(':')) {
+          const parts = label.split(':');
+          accountName = parts[1].trim();
+        }
+
+        if (!secret) {
+          showToast('二维码中未找到密钥', 'error');
+          return;
+        }
+
+        if (!isValidBase32(secret)) {
+          showToast('密钥格式无效', 'error');
+          return;
+        }
+
+        secretInput.value = secret.toUpperCase().replace(/\s/g, '');
+        accountNameInput.value = accountName || issuer || '';
+        
+        showToast('二维码识别成功', 'success');
+        secretInput.focus();
+        
+        // 自动显示验证码
+        currentSecret = secretInput.value;
+        currentLabel = accountNameInput.value || '临时使用';
+        currentAccountName.textContent = currentLabel;
+        codeArea.classList.remove('hidden');
+        update();
+      } catch (e) {
+        showToast('解析二维码失败', 'error');
+      }
+    }
 
     function isValidBase32(secret) {
       const clean = secret.toUpperCase().replace(/\s/g, '');
@@ -309,17 +721,11 @@
 
       if (secret.length > 0) {
         clearBtn.classList.add('visible');
-        const newHash = '#' + encodeURIComponent(secret);
-        if (window.location.hash !== newHash) {
-          history.replaceState(null, '', newHash);
-        }
-        codeArea.classList.remove('hidden');
       } else {
         clearBtn.classList.remove('visible');
-        if (window.location.hash !== '') {
-          history.replaceState(null, '', window.location.pathname);
+        if (!currentSecret) {
+          codeArea.classList.add('hidden');
         }
-        codeArea.classList.add('hidden');
         return;
       }
 
@@ -349,15 +755,27 @@
       }
     }
 
-    const hashSecret = decodeURIComponent(window.location.hash.substring(1));
-    if (hashSecret) {
-      secretInput.value = hashSecret;
+    secretInput.addEventListener('input', () => {
+      const secret = secretInput.value.trim();
+      if (secret.length > 0 && isValidBase32(secret)) {
+        currentSecret = secret;
+        currentLabel = accountNameInput.value.trim() || '临时使用';
+        currentAccountName.textContent = currentLabel;
+        codeArea.classList.remove('hidden');
+      }
       update();
-    }
+    });
 
+    accountNameInput.addEventListener('input', () => {
+      if (currentSecret) {
+        currentLabel = accountNameInput.value.trim() || '临时使用';
+        currentAccountName.textContent = currentLabel;
+      }
+    });
+
+    loadAccounts();
     setInterval(update, 1000);
     update();
-    secretInput.addEventListener('input', update);
   });
 </script>
 </body>
