@@ -23,8 +23,9 @@
 
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%2338bdf8' d='M12 1L3 5v6c0 5.25 3.75 10.15 9 11.25C17.25 21.15 21 16.25 21 11V5L12 1zm0 4l6 2.67V11c0 3.5-2.33 6.79-6 8.04C8.33 17.79 6 14.5 6 11V7.67L12 5z'/%3E%3C/svg%3E"/>
 
-  <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
   <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
@@ -558,6 +559,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let currentLabel  = '';
   let currentIssuer = '';
   let lastCode      = '';
+  let jsQrLoader     = null;
 
   const STORAGE_KEY   = '2fa_accounts';
   const CIRCUMFERENCE = 2 * Math.PI * 14;
@@ -647,6 +649,20 @@ document.addEventListener('DOMContentLoaded', () => {
     toastTimer = setTimeout(() => toastEl.classList.remove('show'), 2500);
   }
 
+  function loadJsQrLib() {
+    if (window.jsQR) return Promise.resolve(window.jsQR);
+    if (jsQrLoader) return jsQrLoader;
+    jsQrLoader = new Promise((resolve, reject) => {
+      const script = document.createElement('script');
+      script.src = 'https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js';
+      script.defer = true;
+      script.onload = () => resolve(window.jsQR);
+      script.onerror = () => reject(new Error('jsQR load failed'));
+      document.head.appendChild(script);
+    });
+    return jsQrLoader;
+  }
+
   function escapeHtml(t) {
     const d = document.createElement('div'); d.textContent = t; return d.innerHTML;
   }
@@ -694,11 +710,23 @@ document.addEventListener('DOMContentLoaded', () => {
     showToast('账户已保存', 'success');
   });
 
-  scanBtn.addEventListener('click', () => fileInput.click());
+  scanBtn.addEventListener('click', async () => {
+    try {
+      await loadJsQrLib();
+      fileInput.click();
+    } catch {
+      showToast('二维码组件加载失败，请稍后重试', 'error');
+    }
+  });
   fileInput.addEventListener('change', e => { if (e.target.files[0]) handleFile(e.target.files[0]); });
 
-  function handleFile(file) {
+  async function handleFile(file) {
     if (!file.type.startsWith('image/')) return showToast('请选择图片文件', 'error');
+    try {
+      await loadJsQrLib();
+    } catch {
+      return showToast('二维码组件加载失败，请稍后重试', 'error');
+    }
     const reader = new FileReader();
     reader.onload = e => {
       const img = new Image();
