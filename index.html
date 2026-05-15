@@ -16,10 +16,13 @@
   <meta property="og:description" content="安全的两步验证码生成器。支持扫描二维码或手动输入密钥，生成 TOTP 验证码。"/>
   <meta property="og:url" content="https://2fa.userhali.com/"/>
   <meta property="og:site_name" content="2FA Authenticator"/>
+  <meta property="og:image" content="https://2fa.userhali.com/og-image.png"/>
+  <meta property="og:locale" content="zh_CN"/>
 
-  <meta name="twitter:card" content="summary"/>
+  <meta name="twitter:card" content="summary_large_image"/>
   <meta name="twitter:title" content="2FA Authenticator - 安全验证码生成器"/>
   <meta name="twitter:description" content="安全的两步验证码生成器。支持扫描二维码或手动输入密钥，生成 TOTP 验证码。"/>
+  <meta name="twitter:image" content="https://2fa.userhali.com/og-image.png"/>
 
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%2338bdf8' d='M12 1L3 5v6c0 5.25 3.75 10.15 9 11.25C17.25 21.15 21 16.25 21 11V5L12 1zm0 4l6 2.67V11c0 3.5-2.33 6.79-6 8.04C8.33 17.79 6 14.5 6 11V7.67L12 5z'/%3E%3C/svg%3E"/>
 
@@ -29,6 +32,40 @@
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@600;700&family=DM+Sans:wght@400;500;600;700&display=swap">
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
   <noscript><link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"></noscript>
+  
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "name": "2FA Authenticator",
+        "url": "https://2fa.userhali.com/",
+        "logo": "https://2fa.userhali.com/og-image.png"
+      },
+      {
+        "@type": "WebSite",
+        "name": "2FA Authenticator",
+        "url": "https://2fa.userhali.com/",
+        "inLanguage": "zh-CN",
+        "description": "用于生成 TOTP 两步验证码的在线工具，支持密钥输入与二维码识别。"
+      },
+      {
+        "@type": "SoftwareApplication",
+        "name": "2FA Authenticator",
+        "applicationCategory": "SecurityApplication",
+        "operatingSystem": "Web",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        },
+        "description": "在浏览器本地生成 2FA/TOTP 动态验证码，可保存多个账户并按 30 秒周期刷新。"
+      }
+    ]
+  }
+  </script>
+
   <style>
     :root {
       --bg: #080c14;
@@ -368,7 +405,7 @@
   </style>
 </head>
 <body>
-<div class="app">
+<main class="app">
 
   <!-- ── Header ── -->
   <div class="header">
@@ -379,12 +416,12 @@
         </svg>
       </div>
       <div class="header-text">
-        <div class="header-title">2FA Authenticator</div>
+        <h1 class="header-title">2FA Authenticator</h1>
         <div class="header-sub">安全验证码管理器</div>
       </div>
     </div>
 
-    <a href="old.html" class="legacy-btn">
+    <a href="old.html" class="legacy-btn" rel="nofollow">
       <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
         <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
       </svg>
@@ -454,6 +491,27 @@
   </div>
 
 </div>
+
+  <section class="panel" aria-labelledby="intro-title" style="margin-top:1.25rem;">
+    <h2 id="intro-title" class="panel-title">工具简介</h2>
+    <p style="font-size:0.9rem;line-height:1.7;color:var(--text-muted);">2FA Authenticator 是一个浏览器端双重验证工具，适合需要快速查看一次性验证码的个人开发者、跨境卖家与运维人员。你可以手动输入 Base32 密钥或扫描二维码，系统会在本地计算 TOTP，不上传密钥到服务器。</p>
+    <h3 style="margin-top:0.9rem;font-size:0.85rem;">适用场景</h3>
+    <ul style="margin:0.5rem 0 0 1rem;color:var(--text-muted);font-size:0.86rem;line-height:1.7;">
+      <li>临时登录云服务、邮箱、社交媒体等开启 2FA 的平台。</li>
+      <li>需要离线保存多个账户验证码并快速切换查看。</li>
+      <li>对数据隐私敏感，希望验证码在本地设备内完成计算。</li>
+    </ul>
+  </section>
+
+  <section class="panel" aria-labelledby="faq-title" style="margin-top:1rem;">
+    <h2 id="faq-title" class="panel-title">常见问题 FAQ</h2>
+    <h3 style="font-size:0.9rem;">这个工具会上传我的密钥吗？</h3>
+    <p style="font-size:0.86rem;color:var(--text-muted);line-height:1.7;">不会。验证码计算使用浏览器 Web Crypto API 在本地完成，账户数据默认保存在你的本地存储中，用于下次打开页面继续使用。</p>
+    <h3 style="font-size:0.9rem;margin-top:0.8rem;">支持哪些验证码标准？</h3>
+    <p style="font-size:0.86rem;color:var(--text-muted);line-height:1.7;">当前主要支持 Google Authenticator 兼容的 TOTP（30 秒刷新）格式，输入 Base32 密钥即可生成 6 位动态验证码。</p>
+  </section>
+</main>
+
 <div id="toast" class="toast"></div>
 
 <script>
