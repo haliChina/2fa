@@ -1,0 +1,8 @@
+/* TEAM */
+Product: 2FA Authenticator
+Site: https://2fa.userhali.com/
+Focus: Privacy-first, browser-based TOTP generation
+
+/* SITE */
+Tech: Static HTML, CSS, JavaScript
+Standards: SEO metadata, JSON-LD, robots, sitemap, llms.txt

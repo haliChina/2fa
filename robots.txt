@@ -1,0 +1,17 @@
+User-agent: *
+Allow: /
+
+Disallow: /api/
+Disallow: /admin/
+Disallow: /dashboard/
+Disallow: /user/
+Disallow: /login
+Disallow: /register
+Disallow: /checkout
+Disallow: /payment/
+Disallow: /pay/
+Disallow: /notify
+Disallow: /callback
+Disallow: /order/detail/
+
+Sitemap: https://2fa.userhali.com/sitemap.xml
