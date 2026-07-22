@@ -6,13 +6,14 @@
 //   - Never cache cross-origin requests
 //   - Bypass non-GET requests
 
-const VERSION = 'v1.0.0-2fa-static';
+const VERSION = 'v1.0.1-2fa-static';
 const PRECACHE = `2fa-precache-${VERSION}`;
 const RUNTIME  = `2fa-runtime-${VERSION}`;
 
 const PRECACHE_URLS = [
   '/',
   '/index.html',
+  '/app.js',
   '/jsQR.min.js',
   '/manifest.json',
   '/robots.txt',
