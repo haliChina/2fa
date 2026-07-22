@@ -578,10 +578,19 @@ document.addEventListener('DOMContentLoaded', () => {
     if (installBtn) installBtn.hidden = false;
   });
   installBtn?.addEventListener('click', async () => {
-    if (!deferredPrompt) return;
-    deferredPrompt.prompt();
-    const { outcome } = await deferredPrompt.userChoice;
-    if (outcome === 'accepted') showToast('已安装，可离线使用', 'success');
+    if (!deferredPrompt) {
+      showToast('当前浏览器未弹出安装入口，可改用 Chrome/Edge，或通过浏览器菜单「添加到主屏幕 / 安装应用」手动安装', 'error');
+      return;
+    }
+    try {
+      deferredPrompt.prompt();
+      const { outcome } = await deferredPrompt.userChoice;
+      if (outcome === 'accepted') showToast('已安装，可离线使用', 'success');
+      else showToast('已取消安装', '');
+    } catch (err) {
+      console.warn('install prompt failed:', err);
+      showToast('安装提示失败，请通过浏览器菜单手动安装', 'error');
+    }
     deferredPrompt = null;
     installBtn.hidden = true;
   });
