@@ -1,0 +1,37 @@
+{
+  "name": "2FA Authenticator · 纯静态验证器",
+  "short_name": "2FA",
+  "description": "纯静态浏览器 2FA/TOTP 验证器，零第三方请求，密钥本地生成不外传。可离线使用。",
+  "lang": "zh-CN",
+  "dir": "ltr",
+  "start_url": "/?source=pwa",
+  "scope": "/",
+  "display": "standalone",
+  "display_override": ["standalone", "minimal-ui"],
+  "orientation": "portrait-primary",
+  "background_color": "#000000",
+  "theme_color": "#000000",
+  "categories": ["security", "utilities", "productivity"],
+  "icons": [
+    {
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'%3E%3Crect width='192' height='192' fill='%23000'/%3E%3Crect x='40' y='40' width='112' height='112' rx='16' fill='none' stroke='%23fff' stroke-width='6'/%3E%3Ccircle cx='96' cy='84' r='16' fill='none' stroke='%23fff' stroke-width='6'/%3E%3Cpath d='M96 100 L96 138' stroke='%23fff' stroke-width='6' stroke-linecap='round'/%3E%3C/svg%3E",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' fill='%23000'/%3E%3Crect x='112' y='112' width='288' height='288' rx='40' fill='none' stroke='%23fff' stroke-width='16'/%3E%3Ccircle cx='256' cy='224' r='40' fill='none' stroke='%23fff' stroke-width='16'/%3E%3Cpath d='M256 264 L256 368' stroke='%23fff' stroke-width='16' stroke-linecap='round'/%3E%3C/svg%3E",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "扫描二维码",
+      "short_name": "扫码",
+      "url": "/?action=scan&source=pwa",
+      "description": "扫描 otpauth 二维码导入账户"
+    }
+  ]
+}

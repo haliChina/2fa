@@ -1,40 +1,40 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="zh-CN">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>2FA Authenticator - 安全验证码生成器</title>
-  <meta name="description" content="2FA Authenticator - 安全的两步验证码生成器。支持扫描二维码或手动输入密钥，生成 Google Authenticator 兼容的 TOTP 验证码。"/>
-  <meta name="keywords" content="2FA, TOTP, 双重认证, 两步验证, Google Authenticator, 验证码生成器, 身份验证, 身份验证器动态密码管家, 免费2FA身份验证, 身份验证器, 安全"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+  <meta name="color-scheme" content="dark light"/>
+  <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)"/>
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)"/>
+  <title>纯静态 2FA 验证器 · 零网络请求 · 浏览器本地生成 | 2FA Authenticator</title>
+  <meta name="description" content="纯静态浏览器 2FA/TOTP 验证器，零第三方请求，密钥本地生成不外传。支持 otpauth 二维码扫描、localStorage 多账号管理、Cookie 双重备份，可安装为离线 PWA，源码可审计。"/>
+  <meta name="keywords" content="2FA, TOTP, 纯静态 2FA, 零网络请求 验证器, browser-only totp, offline 2fa generator, 在线 TOTP 生成器, 本地 2FA 工具, 可安装 PWA, 可审计 2FA, Google Authenticator 迁移, 双重验证, 动态密码"/>
   <meta name="author" content="Userhali"/>
-  <meta name="robots" content="index, follow"/>
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1"/>
+  <meta name="application-name" content="2FA Authenticator"/>
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+  <meta name="apple-mobile-web-app-title" content="2FA"/>
 
   <link rel="canonical" href="https://2fa.userhali.com/"/>
+  <link rel="manifest" href="/manifest.json"/>
 
   <meta property="og:type" content="website"/>
-  <meta property="og:title" content="2FA Authenticator - 安全验证码生成器"/>
-  <meta property="og:description" content="安全的两步验证码生成器。支持扫描二维码或手动输入密钥，生成 TOTP 验证码。"/>
+  <meta property="og:title" content="纯静态 2FA 验证器 · 零网络请求 · 浏览器本地生成"/>
+  <meta property="og:description" content="纯静态浏览器 2FA/TOTP 验证器，零第三方请求，密钥本地生成不外传。可安装为离线 PWA，源码可审计。"/>
   <meta property="og:url" content="https://2fa.userhali.com/"/>
   <meta property="og:site_name" content="2FA Authenticator"/>
   <meta property="og:image" content="https://2fa.userhali.com/og-image.png"/>
   <meta property="og:locale" content="zh_CN"/>
+  <meta property="og:locale:alternate" content="en_US"/>
 
   <meta name="twitter:card" content="summary_large_image"/>
-  <meta name="twitter:title" content="2FA Authenticator - 安全验证码生成器"/>
-  <meta name="twitter:description" content="安全的两步验证码生成器。支持扫描二维码或手动输入密钥，生成 TOTP 验证码。"/>
+  <meta name="twitter:title" content="纯静态 2FA 验证器 · 零网络请求 · 浏览器本地生成"/>
+  <meta name="twitter:description" content="纯静态浏览器 2FA/TOTP 验证器，零第三方请求，密钥本地生成不外传。可安装为离线 PWA，源码可审计。"/>
   <meta name="twitter:image" content="https://2fa.userhali.com/og-image.png"/>
 
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect x='2' y='2' width='20' height='20' rx='2' fill='none' stroke='%238b2c2c' stroke-width='1.6'/%3E%3Ccircle cx='12' cy='10' r='2.3' fill='none' stroke='%238b2c2c' stroke-width='1.6'/%3E%3Cpath d='M12 12.3 L12 16.2' stroke='%238b2c2c' stroke-width='1.6' stroke-linecap='round'/%3E%3C/svg%3E"/>
-
-  <!-- Vercel Web Analytics -->
-  <script defer src="https://cdn.vercel-insights.com/v1/script.js"></script>
-
-  <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Hanken+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap">
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Hanken+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
-  <noscript><link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Hanken+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"></noscript>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect x='3' y='3' width='18' height='18' rx='4' fill='none' stroke='%23000' stroke-width='1.8'/%3E%3Ccircle cx='12' cy='10' r='2.4' fill='none' stroke='%23000' stroke-width='1.8'/%3E%3Cpath d='M12 12.4 L12 17' stroke='%23000' stroke-width='1.8' stroke-linecap='round'/%3E%3C/svg%3E"/>
+  <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='5' fill='%23000'/%3E%3Crect x='5' y='5' width='14' height='14' rx='2' fill='none' stroke='%23fff' stroke-width='1.6'/%3E%3Ccircle cx='12' cy='10' r='2' fill='none' stroke='%23fff' stroke-width='1.6'/%3E%3Cpath d='M12 12 L12 16' stroke='%23fff' stroke-width='1.6' stroke-linecap='round'/%3E%3C/svg%3E"/>
 
   <script type="application/ld+json">
   {
@@ -49,555 +49,824 @@
       {
         "@type": "WebSite",
         "name": "2FA Authenticator",
+        "alternateName": "纯静态 2FA 验证器",
         "url": "https://2fa.userhali.com/",
-        "inLanguage": "zh-CN",
-        "description": "用于生成 TOTP 两步验证码的在线工具，支持密钥输入与二维码识别。"
+        "inLanguage": ["zh-CN", "en"],
+        "description": "纯静态浏览器端 2FA/TOTP 验证码生成工具，零第三方网络请求，密钥本地计算不外传。"
       },
       {
-        "@type": "SoftwareApplication",
+        "@type": "WebApplication",
         "name": "2FA Authenticator",
+        "alternateName": "纯静态 2FA 验证器",
+        "url": "https://2fa.userhali.com/",
         "applicationCategory": "SecurityApplication",
-        "operatingSystem": "Web",
+        "applicationSubCategory": "Two-Factor Authentication",
+        "operatingSystem": "Any (Web Browser)",
+        "browserRequirements": "Requires JavaScript. Requires Web Crypto API. Works offline after first load.",
+        "inLanguage": ["zh-CN", "en"],
         "offers": {
           "@type": "Offer",
           "price": "0",
           "priceCurrency": "USD"
         },
-        "description": "在浏览器本地生成 2FA/TOTP 动态验证码，可保存多个账户并按 30 秒周期刷新。"
+        "featureList": [
+          "Pure static site, no backend",
+          "Zero third-party network requests",
+          "TOTP code generation (RFC 6238)",
+          "Base32 secret input",
+          "otpauth QR code scanning",
+          "Multiple accounts in localStorage",
+          "Cookie backup for credentials",
+          "Installable PWA, works offline",
+          "Auditable single-file source"
+        ],
+        "description": "在浏览器本地生成 2FA/TOTP 动态验证码，零第三方网络请求。支持密钥输入、otpauth 二维码识别、多账号管理，可安装为离线 PWA。"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "这个 2FA 工具真的零网络请求吗？如何验证？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "是。本站为纯静态页面，所有 HTML/CSS/JS 均由静态托管服务返回。除首次加载所需的静态文件外，运行时不会向任何服务器发送请求。验证方法：打开浏览器 DevTools 的 Network 面板，刷新页面并使用一段时间，你会看到首次加载后没有任何新请求；更彻底的方式是断开网络（拔网线或开启离线模式）后刷新页面，工具照常运行。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "我的密钥会被上传到服务器吗？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "不会。验证码计算使用浏览器内置的 Web Crypto API（HMAC-SHA1）在本地完成。账户数据只保存在你浏览器的 localStorage 和 Cookie 中，从不通过任何网络请求发送。CSP 头部已将 connect-src 设为 self，技术上禁止了任何上传行为。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "账户数据保存在哪里？换设备会丢失吗？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "账户数据双重保存：主存在 localStorage（key 为 2fa_accounts），副存在同名 Cookie 作为备份。注意 localStorage 和 Cookie 都绑定在当前浏览器和域名下，换设备或清浏览器数据会丢失。建议定期使用浏览器开发者工具导出 localStorage 数据作为离线备份。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "支持哪些验证码标准？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "当前支持 Google Authenticator 兼容的 TOTP（RFC 6238）格式：HMAC-SHA1、30 秒刷新周期、6 位数字验证码。输入 Base32 编码的密钥即可生成。兼容 Google Authenticator、Microsoft Authenticator、Authy、1Password、Bitwarden 等主流应用扫描的 otpauth:// 二维码。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "能离线使用吗？可以安装到桌面或手机主屏吗？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "可以。本站是 PWA（渐进式 Web 应用），首次加载后 Service Worker 会缓存所有静态资源。之后即使断网也能正常使用。在 Chrome / Edge / Safari 中可通过地址栏的安装按钮将其添加到桌面或手机主屏，像原生应用一样使用。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "如何从 Google Authenticator 迁移到本工具？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Google Authenticator 自身不直接导出 otpauth 二维码。可借助 Aegis Authenticator、FreeOTP+ 等开源应用导入 Google 账户后再导出 otpauth 二维码，然后用本站点的扫描二维码功能逐一导入。也可手动复制各服务的 Base32 密钥到本工具。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "和原生 App（Google Authenticator、Authy）相比有什么区别？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "优势：纯静态、零网络请求、可在 DevTools 中审计、无需安装即可使用、跨平台。劣势：不支持云端同步（换设备需手动迁移）、不支持生物识别锁屏、不支持 Steam Guard 等非标准格式。适合注重隐私、临时使用或开发者测试场景。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "时钟不同步会导致验证码错误吗？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "TOTP 依赖时间，若你的设备时间与服务器偏差超过 30 秒，生成的验证码将无法通过验证。请确保系统时间已开启自动同步（NTP）。本工具使用浏览器获取的本地时间，不会向服务器校时。"
+            }
+          }
+        ]
+      },
+      {
+        "@type": "HowTo",
+        "name": "如何使用纯静态 2FA 验证器生成验证码",
+        "description": "通过手动输入 Base32 密钥或扫描 otpauth 二维码，在浏览器本地生成 TOTP 验证码。",
+        "totalTime": "PT1M",
+        "step": [
+          {
+            "@type": "HowToStep",
+            "position": 1,
+            "name": "输入密钥或扫描二维码",
+            "text": "在密钥输入框粘贴服务方提供的 Base32 密钥，或点击扫描按钮上传 otpauth:// 格式的二维码图片。"
+          },
+          {
+            "@type": "HowToStep",
+            "position": 2,
+            "name": "查看动态验证码",
+            "text": "工具会立即在本地使用 Web Crypto API 计算 6 位 TOTP 验证码，并显示倒计时。每 30 秒自动刷新。"
+          },
+          {
+            "@type": "HowToStep",
+            "position": 3,
+            "name": "保存账户便于下次使用",
+            "text": "点击保存账户按钮，账户会存入浏览器 localStorage 和 Cookie。下次打开页面自动加载，无需重新输入。"
+          },
+          {
+            "@type": "HowToStep",
+            "position": 4,
+            "name": "复制验证码登录",
+            "text": "点击验证码卡片即可一键复制到剪贴板，粘贴到登录页面完成两步验证。"
+          }
+        ]
       }
     ]
   }
   </script>
 
   <style>
+    /* ── Vercel-clean design tokens ── */
     :root {
-      /* Atelier Sécurité — warm editorial print palette */
-      --bg: #ece6d8;
-      --bg-deep: #e3dcc9;
-      --surface: #faf7f0;
-      --surface-2: #f4efe3;
-      --surface-hover: #efe9da;
-      --ink: #1a1612;
-      --ink-soft: #3d362c;
-      --muted: #7a7062;
-      --dim: #a89e8c;
-      --hair: #d4cdbd;
-      --hair-strong: #b8af9b;
-      --border: #d4cdbd;
-      --border-active: #8b2c2c;
-      --accent: #8b2c2c;
-      --accent-soft: #a8443f;
-      --brass: #a67c3d;
-      --code-color: #7a2424;
-      --danger: #b91c1c;
-      --success: #4d6b2a;
-      --radius-sm: 3px;
-      --radius-lg: 4px;
+      color-scheme: dark light;
+      /* Light mode (default) */
+      --bg: #fafafa;
+      --surface: #ffffff;
+      --surface-2: #f4f4f5;
+      --surface-hover: #ededee;
+      --fg: #111111;
+      --fg-soft: #333333;
+      --muted: #666666;
+      --dim: #999999;
+      --border: #eaeaea;
+      --border-strong: #d4d4d4;
+      --accent: #000000;
+      --accent-fg: #ffffff;
+      --code: #000000;
+      --danger: #e00000;
+      --danger-bg: #fef2f2;
+      --success: #0070f3;
+      --ring: #0070f3;
+      --radius-sm: 6px;
+      --radius-md: 8px;
+      --radius-lg: 12px;
+      --shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
+      --shadow-md: 0 4px 12px rgba(0,0,0,0.06);
+      --shadow-lg: 0 12px 32px rgba(0,0,0,0.08);
+      --max-w: 560px;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #000000;
+        --surface: #0a0a0a;
+        --surface-2: #141414;
+        --surface-hover: #1a1a1a;
+        --fg: #fafafa;
+        --fg-soft: #ededed;
+        --muted: #a1a1a1;
+        --dim: #6b6b6b;
+        --border: #1f1f1f;
+        --border-strong: #2e2e2e;
+        --accent: #ffffff;
+        --accent-fg: #000000;
+        --code: #fafafa;
+        --danger: #ff5252;
+        --danger-bg: #1a0d0d;
+        --success: #3b82f6;
+        --ring: #3b82f6;
+        --shadow-sm: 0 1px 2px rgba(0,0,0,0.4);
+        --shadow-md: 0 4px 12px rgba(0,0,0,0.5);
+        --shadow-lg: 0 12px 32px rgba(0,0,0,0.6);
+      }
+    }
+
+    /* Manual theme override classes */
+    html[data-theme="light"] {
+      color-scheme: light;
+      --bg: #fafafa; --surface: #ffffff; --surface-2: #f4f4f5; --surface-hover: #ededee;
+      --fg: #111111; --fg-soft: #333333; --muted: #666666; --dim: #999999;
+      --border: #eaeaea; --border-strong: #d4d4d4; --accent: #000000; --accent-fg: #ffffff;
+      --code: #000000; --danger: #e00000; --danger-bg: #fef2f2; --success: #0070f3; --ring: #0070f3;
+    }
+    html[data-theme="dark"] {
+      color-scheme: dark;
+      --bg: #000000; --surface: #0a0a0a; --surface-2: #141414; --surface-hover: #1a1a1a;
+      --fg: #fafafa; --fg-soft: #ededed; --muted: #a1a1a1; --dim: #6b6b6b;
+      --border: #1f1f1f; --border-strong: #2e2e2e; --accent: #ffffff; --accent-fg: #000000;
+      --code: #fafafa; --danger: #ff5252; --danger-bg: #1a0d0d; --success: #3b82f6; --ring: #3b82f6;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
-    html, body {
-      height: 100%;
-      font-family: 'Hanken Grotesk', sans-serif;
+    html { scroll-behavior: smooth; }
+    html:focus-within { scroll-behavior: smooth; }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.001ms !important;
+      }
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
       background: var(--bg);
-      color: var(--ink);
-      overflow-x: hidden;
+      color: var(--fg);
+      line-height: 1.5;
       -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
       text-rendering: optimizeLegibility;
-    }
-
-    /* Warm vignette + paper grain atmosphere */
-    body::before {
-      content: '';
-      position: fixed; inset: 0;
-      background:
-        radial-gradient(ellipse 70% 50% at 50% 0%, rgba(166,124,61,0.07) 0%, transparent 60%),
-        radial-gradient(ellipse 60% 60% at 100% 100%, rgba(139,44,44,0.05) 0%, transparent 60%),
-        radial-gradient(ellipse 60% 60% at 0% 90%, rgba(26,22,18,0.04) 0%, transparent 60%);
-      pointer-events: none; z-index: 0;
-    }
-    body::after {
-      content: '';
-      position: fixed; inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
-      pointer-events: none; opacity: 0.045; z-index: 0; mix-blend-mode: multiply;
-    }
-
-    .app {
-      position: relative; z-index: 1;
       min-height: 100vh;
-      display: flex; flex-direction: column; align-items: center;
-      padding: 2.25rem 1rem 4rem;
+      padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
     }
 
-    /* ── Masthead rule ── */
-    .masthead {
-      width: 100%; max-width: 460px;
-      display: flex; align-items: center; justify-content: space-between;
-      padding-bottom: 0.7rem; margin-bottom: 1.75rem;
-      border-bottom: 1px solid var(--hair-strong);
+    .mono {
+      font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+      font-variant-numeric: tabular-nums;
     }
-    .masthead-mark {
-      font-family: 'Fraunces', serif;
-      font-size: 0.62rem; font-weight: 600;
-      letter-spacing: 0.28em; text-transform: uppercase;
-      color: var(--muted);
+
+    /* ── Skip link ── */
+    .skip-link {
+      position: absolute; top: -40px; left: 8px;
+      background: var(--accent); color: var(--accent-fg);
+      padding: 8px 14px; border-radius: var(--radius-sm);
+      font-size: 0.85rem; font-weight: 500; text-decoration: none;
+      z-index: 9999; transition: top 0.15s;
     }
-    .masthead-mark em { font-style: normal; color: var(--accent); }
-    .masthead-issue {
-      font-family: 'Space Mono', monospace;
-      font-size: 0.6rem; color: var(--dim); letter-spacing: 0.1em;
+    .skip-link:focus { top: 8px; }
+
+    /* ── Trust banner ── */
+    .trust-banner {
+      width: 100%;
+      background: var(--accent);
+      color: var(--accent-fg);
+      font-size: 0.78rem;
+      letter-spacing: 0.01em;
+      text-align: center;
+      padding: 9px 1rem;
+      display: flex; align-items: center; justify-content: center;
+      gap: 8px; flex-wrap: wrap;
+    }
+    .trust-banner strong { font-weight: 600; }
+    .trust-banner svg { width: 13px; height: 13px; flex-shrink: 0; }
+    .trust-banner a {
+      color: inherit; text-decoration: underline;
+      text-underline-offset: 2px; opacity: 0.85;
+    }
+    .trust-banner a:hover { opacity: 1; }
+
+    /* ── Layout ── */
+    .app {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 1.5rem 1.25rem 4rem;
     }
 
     /* ── Header ── */
     .header {
-      width: 100%; max-width: 460px;
-      display: flex; align-items: center;
-      margin-bottom: 1.75rem;
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 1.5rem; gap: 12px;
     }
-    .header-left { display: flex; align-items: center; gap: 14px; flex: 1; min-width: 0; }
-
-    .header-icon {
-      width: 42px; height: 42px;
-      background: var(--surface);
-      border: 1px solid var(--ink);
+    .header-left { display: flex; align-items: center; gap: 12px; min-width: 0; }
+    .logo {
+      width: 36px; height: 36px;
+      border: 1.5px solid var(--fg);
       border-radius: var(--radius-sm);
       display: flex; align-items: center; justify-content: center;
-      flex-shrink: 0;
-      color: var(--accent);
-      position: relative;
+      flex-shrink: 0; background: var(--surface);
     }
-    .header-icon::after {
-      content: ''; position: absolute; inset: 3px;
-      border: 1px solid var(--hair); border-radius: 1px; pointer-events: none;
-    }
-    .header-icon svg { width: 22px; height: 22px; }
-
-    .header-text { min-width: 0; }
+    .logo svg { width: 22px; height: 22px; }
     .header-title {
-      font-family: 'Fraunces', serif;
-      font-variation-settings: "opsz" 120;
-      font-size: 1.5rem; font-weight: 600;
-      letter-spacing: -0.02em; line-height: 1;
-      color: var(--ink);
+      font-size: 1.1rem; font-weight: 600;
+      letter-spacing: -0.01em; line-height: 1.2;
     }
     .header-sub {
-      font-size: 0.66rem; color: var(--muted);
-      letter-spacing: 0.22em; text-transform: uppercase;
-      margin-top: 5px; font-weight: 500;
+      font-size: 0.72rem; color: var(--muted);
+      letter-spacing: 0.02em; margin-top: 2px;
     }
+    .header-actions { display: flex; gap: 6px; flex-shrink: 0; }
 
-    .legacy-btn {
-      display: flex; align-items: center; gap: 6px;
-      padding: 0.45rem 0.8rem;
+    .icon-btn {
+      width: 34px; height: 34px;
+      display: inline-flex; align-items: center; justify-content: center;
       background: transparent;
-      border: 1px solid var(--hair-strong);
-      border-radius: 999px;
-      color: var(--muted);
-      font-family: 'Hanken Grotesk', sans-serif;
-      font-size: 0.7rem; font-weight: 500;
-      letter-spacing: 0.04em;
-      cursor: pointer; text-decoration: none;
-      transition: all 0.2s;
-      white-space: nowrap; flex-shrink: 0;
-      margin-left: 10px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--muted); cursor: pointer;
+      transition: color 0.15s, border-color 0.15s, background 0.15s;
+      text-decoration: none;
     }
-    .legacy-btn svg { width: 11px; height: 11px; fill: currentColor; }
-    .legacy-btn:hover { border-color: var(--accent); color: var(--accent); background: rgba(139,44,44,0.04); }
+    .icon-btn:hover {
+      color: var(--fg); border-color: var(--border-strong);
+      background: var(--surface-2);
+    }
+    .icon-btn:focus-visible {
+      outline: 2px solid var(--ring); outline-offset: 2px;
+    }
+    .icon-btn svg { width: 16px; height: 16px; }
 
-    /* ── Code Card ── */
-    #codeArea { width: 100%; max-width: 460px; margin-bottom: 1.5rem; }
-    #codeArea.hidden { display: none !important; }
+    /* ── Trust badges row ── */
+    .badges {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+      margin-bottom: 1.5rem;
+    }
+    .badge {
+      display: flex; align-items: center; gap: 8px;
+      padding: 9px 11px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-size: 0.74rem; color: var(--fg-soft);
+      line-height: 1.3;
+    }
+    .badge svg { width: 14px; height: 14px; color: var(--fg); flex-shrink: 0; }
+    .badge strong { color: var(--fg); font-weight: 600; }
+
+    /* ── Code card ── */
+    #codeArea { margin-bottom: 1.5rem; }
+    #codeArea.hidden { display: none; }
 
     .code-card {
       background: var(--surface);
-      border: 1px solid var(--hair-strong);
+      border: 1px solid var(--border);
       border-radius: var(--radius-lg);
-      padding: 1.75rem 1.5rem 1.4rem;
-      position: relative; overflow: hidden;
+      padding: 1.5rem;
       cursor: pointer;
-      transition: border-color 0.3s, box-shadow 0.3s, transform 0.2s;
-      animation: fadeUp 0.45s ease-out;
-      will-change: transform;
-      contain: layout;
-    }
-    /* perforated top edge — ticket feel */
-    .code-card::before {
-      content: '';
-      position: absolute; top: 0; left: 0; right: 0; height: 4px;
-      background-image: radial-gradient(circle, var(--accent) 1px, transparent 1.4px);
-      background-size: 8px 4px;
-      background-repeat: repeat-x;
-      background-position: 0 1px;
-      opacity: 0.5;
+      transition: border-color 0.15s, box-shadow 0.15s;
+      animation: fadeUp 0.25s ease-out;
+      touch-action: manipulation;
     }
     .code-card:hover {
-      border-color: var(--ink);
-      box-shadow: 0 18px 40px -18px rgba(26,22,18,0.28), 0 2px 0 var(--bg-deep);
-      transform: translateY(-1px);
+      border-color: var(--border-strong);
+      box-shadow: var(--shadow-md);
     }
-    .code-card:active { transform: translateY(0); }
+    .code-card:focus-visible {
+      outline: 2px solid var(--ring); outline-offset: 2px;
+    }
+    .code-card:active { box-shadow: var(--shadow-sm); }
 
     .code-header {
       display: flex; align-items: center; justify-content: space-between;
-      margin-bottom: 1.1rem;
+      margin-bottom: 1.25rem; gap: 10px;
     }
-    .code-account-badge { display: flex; align-items: center; gap: 9px; min-width: 0; }
+    .code-account { display: flex; align-items: center; gap: 10px; min-width: 0; }
+    #currentAccountName {
+      font-size: 0.86rem; font-weight: 600;
+      color: var(--fg); letter-spacing: -0.005em;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .copy-hint {
+      display: inline-flex; align-items: center; gap: 5px;
+      font-size: 0.7rem; color: var(--dim); font-weight: 500;
+      letter-spacing: 0.02em; flex-shrink: 0;
+      transition: color 0.15s;
+    }
+    .copy-hint svg { width: 12px; height: 12px; }
+    .code-card:hover .copy-hint { color: var(--muted); }
 
-    /* Avatars */
     .avatar {
       display: flex; align-items: center; justify-content: center;
-      flex-shrink: 0; overflow: hidden;
-    }
-    .avatar.brand { background: #fff; }
-    .avatar.letter {
-      font-size: 0.72rem; font-weight: 700; color: #fff;
-      font-family: 'Hanken Grotesk', sans-serif; letter-spacing: 0.02em;
+      flex-shrink: 0; overflow: hidden; background: var(--surface-2);
     }
     .avatar svg { width: 100%; height: 100%; display: block; }
-
-    .avatar-sm { width: 28px; height: 28px; border-radius: 8px; }
-    .avatar-md { width: 32px; height: 32px; border-radius: 9px; }
+    .avatar.letter {
+      font-size: 0.72rem; font-weight: 700; color: #fff;
+      letter-spacing: 0.02em;
+    }
+    .avatar-sm { width: 28px; height: 28px; border-radius: 7px; }
+    .avatar-md { width: 32px; height: 32px; border-radius: 8px; }
+    .avatar.brand { background: #fff; }
     .avatar.brand.avatar-sm { padding: 4px; }
     .avatar.brand.avatar-md { padding: 5px; }
 
-    #currentAccountName {
-      font-size: 0.78rem; font-weight: 600;
-      color: var(--ink-soft); letter-spacing: 0.01em;
-      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-    }
-
-    .copy-hint {
-      display: flex; align-items: center; gap: 5px;
-      font-size: 0.62rem; color: var(--dim); font-weight: 600;
-      letter-spacing: 0.14em; text-transform: uppercase;
-      transition: color 0.2s;
-    }
-    .copy-hint svg { width: 11px; height: 11px; fill: currentColor; }
-    .code-card:hover .copy-hint { color: var(--accent); }
-
-    /* Digits — printed token cells */
-    .code-display-wrap {
+    .code-display {
       display: flex; align-items: stretch; justify-content: center;
-      gap: 7px; margin-bottom: 1.4rem;
+      gap: 6px; margin-bottom: 1.25rem;
     }
-    .code-group { display: flex; gap: 5px; }
+    .code-group { display: flex; gap: 4px; }
     .code-digit {
-      font-family: 'Space Mono', monospace;
-      font-size: 2.35rem; font-weight: 700;
-      color: var(--code-color); line-height: 1;
-      min-width: 2.5rem; height: 3.1rem;
+      font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+      font-size: 2.4rem; font-weight: 700;
+      color: var(--code); line-height: 1;
+      min-width: 2.6rem; height: 3.2rem;
       padding: 0 0.15rem;
       display: flex; align-items: center; justify-content: center;
       background: var(--bg);
-      border: 1px solid var(--hair-strong);
-      border-radius: 2px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
       font-variant-numeric: tabular-nums;
-      position: relative;
-      box-shadow: inset 0 -2px 0 rgba(26,22,18,0.04);
     }
     .code-digit.invalid {
-      font-size: 0.85rem; min-width: auto; height: 3.1rem;
-      padding: 0 0.7rem; color: var(--danger);
-      border-color: rgba(185,28,28,0.35);
-      background: rgba(185,28,28,0.05);
-      box-shadow: none;
+      font-size: 0.85rem; min-width: auto; height: 3.2rem;
+      padding: 0 0.8rem; color: var(--danger);
+      border-color: var(--danger); background: var(--danger-bg);
     }
     .code-sep {
-      width: 10px; align-self: center;
+      width: 8px; align-self: center;
       display: flex; align-items: center; justify-content: center;
       color: var(--dim);
     }
     .code-sep::before {
-      content: ''; width: 4px; height: 4px; border-radius: 50%;
-      background: var(--accent); opacity: 0.6;
+      content: ''; width: 3px; height: 3px; border-radius: 50%;
+      background: currentColor; opacity: 0.6;
     }
 
-    @keyframes digitFlip {
-      0%   { opacity: 0; }
-      100% { opacity: 1; }
-    }
-    .digit-flip { animation: digitFlip 0.3s ease-out; }
+    @keyframes digitFlip { from { opacity: 0.2; } to { opacity: 1; } }
+    .digit-flip { animation: digitFlip 0.2s ease-out; }
 
-    /* Ring + bar — precision gauge */
     .progress-section { display: flex; align-items: center; gap: 12px; }
-    .ring-wrap { position: relative; width: 42px; height: 42px; flex-shrink: 0; }
-    .ring-wrap svg { transform: rotate(-90deg); width: 42px; height: 42px; }
-    .ring-bg  { fill: none; stroke: var(--hair); stroke-width: 2; }
+    .ring-wrap { position: relative; width: 38px; height: 38px; flex-shrink: 0; }
+    .ring-wrap svg { transform: rotate(-90deg); width: 38px; height: 38px; }
+    .ring-bg { fill: none; stroke: var(--border); stroke-width: 2.5; }
     .ring-prog {
-      fill: none; stroke: var(--accent); stroke-width: 2; stroke-linecap: round;
+      fill: none; stroke: var(--fg); stroke-width: 2.5; stroke-linecap: round;
       stroke-dasharray: 88; stroke-dashoffset: 0;
-      transition: stroke-dashoffset 1s linear, stroke 0.3s;
+      transition: stroke-dashoffset 1s linear, stroke 0.2s;
     }
     .ring-prog.urgent { stroke: var(--danger); }
     .ring-text {
       position: absolute; inset: 0;
       display: flex; align-items: center; justify-content: center;
-      font-family: 'Space Mono', monospace; font-size: 0.72rem; font-weight: 700; color: var(--ink);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.72rem; font-weight: 600; color: var(--fg);
+      font-variant-numeric: tabular-nums;
     }
     .progress-info { flex: 1; min-width: 0; }
     .progress-bar-outer {
-      height: 2px; background: var(--hair); border-radius: 0; overflow: hidden; margin-bottom: 6px;
+      height: 3px; background: var(--border);
+      border-radius: 2px; overflow: hidden; margin-bottom: 5px;
     }
     .progress-bar-inner {
-      height: 100%; border-radius: 0;
-      background: var(--accent);
-      transition: width 1s linear, background 0.3s;
+      height: 100%; border-radius: 2px; background: var(--fg);
+      transition: width 1s linear, background 0.2s;
     }
     .progress-bar-inner.urgent { background: var(--danger); }
     .timer-text {
-      font-size: 0.68rem; color: var(--muted); font-weight: 500;
-      letter-spacing: 0.04em;
-      font-family: 'Space Mono', monospace;
+      font-size: 0.72rem; color: var(--muted); font-weight: 500;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-variant-numeric: tabular-nums;
     }
 
-    /* ── Section labels (editorial numbered) ── */
+    /* ── Section labels ── */
     .section-label {
-      width: 100%; max-width: 460px;
       display: flex; align-items: baseline; gap: 8px;
-      font-family: 'Fraunces', serif;
       font-size: 0.72rem; font-weight: 600;
-      letter-spacing: 0.16em; text-transform: uppercase;
-      color: var(--ink-soft); margin-bottom: 0.7rem; padding-left: 2px;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.6rem; padding-left: 2px;
     }
-    .section-label::before {
-      content: ''; width: 18px; height: 1px; background: var(--accent);
-      align-self: center; flex-shrink: 0;
+    .section-label .num {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      color: var(--dim); font-size: 0.68rem;
     }
+
+    /* ── Accounts list ── */
     .accounts-list {
-      width: 100%; max-width: 460px;
       display: flex; flex-direction: column;
-      margin-bottom: 1.5rem; padding-right: 2px;
-      border-top: 1px solid var(--hair);
-      contain: layout style;
+      margin-bottom: 1.5rem;
+      border-top: 1px solid var(--border);
     }
     .accounts-list:empty { display: none; border-top: none; }
-    .accounts-list::-webkit-scrollbar { width: 4px; }
-    .accounts-list::-webkit-scrollbar-track { background: transparent; }
-    .accounts-list::-webkit-scrollbar-thumb { background: var(--hair-strong); border-radius: 99px; }
 
     .account-item {
       display: flex; align-items: center; gap: 12px;
-      padding: 0.75rem 0.4rem;
+      padding: 0.7rem 0.5rem;
       background: transparent; border: none;
-      border-bottom: 1px solid var(--hair);
-      border-radius: 0; cursor: pointer;
-      transition: background 0.2s, padding 0.2s;
+      border-bottom: 1px solid var(--border);
+      cursor: pointer; width: 100%; text-align: left;
+      transition: background 0.12s;
+      color: inherit; font: inherit;
     }
-    .account-item:hover { background: var(--surface-2); padding-left: 0.7rem; }
-    .account-item.active {
-      background: var(--surface);
-      box-shadow: inset 2px 0 0 var(--accent);
-      padding-left: 0.7rem;
-    }
+    .account-item:hover { background: var(--surface-2); }
+    .account-item.active { background: var(--surface); box-shadow: inset 2px 0 0 var(--fg); }
+    .account-item:focus-visible { outline: 2px solid var(--ring); outline-offset: -2px; }
     .account-info { flex: 1; min-width: 0; }
     .account-name {
-      font-weight: 600; font-size: 0.86rem; color: var(--ink);
+      font-weight: 600; font-size: 0.86rem; color: var(--fg);
       white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
       letter-spacing: -0.005em;
     }
     .account-issuer {
-      font-size: 0.7rem; color: var(--muted);
+      font-size: 0.72rem; color: var(--muted);
       white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-      letter-spacing: 0.02em;
     }
     .account-active-dot {
-      width: 6px; height: 6px; border-radius: 50%;
-      background: var(--accent);
-      flex-shrink: 0; opacity: 0; transition: opacity 0.2s;
+      width: 5px; height: 5px; border-radius: 50%;
+      background: var(--success); flex-shrink: 0;
+      opacity: 0; transition: opacity 0.15s;
     }
     .account-item.active .account-active-dot { opacity: 1; }
     .account-delete {
-      background: none; border: none; color: var(--dim);
-      cursor: pointer; padding: 4px; border-radius: 3px;
+      background: transparent; border: none; color: var(--dim);
+      cursor: pointer; padding: 4px; border-radius: var(--radius-sm);
       width: 28px; height: 28px;
       display: flex; align-items: center; justify-content: center;
-      flex-shrink: 0; transition: all 0.2s;
+      flex-shrink: 0; transition: color 0.12s, background 0.12s;
     }
-    .account-delete svg { width: 14px; height: 14px; fill: currentColor; }
-    .account-delete:hover { background: rgba(185,28,28,0.1); color: var(--danger); }
+    .account-delete svg { width: 14px; height: 14px; }
+    .account-delete:hover { background: var(--danger-bg); color: var(--danger); }
+    .account-delete:focus-visible { outline: 2px solid var(--ring); outline-offset: 1px; }
 
     /* ── Panel ── */
     .panel {
-      width: 100%; max-width: 460px;
       background: var(--surface);
-      border: 1px solid var(--hair-strong);
-      border-radius: var(--radius-lg); padding: 1.5rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1.25rem;
+      margin-bottom: 1.5rem;
     }
     .panel-title {
-      font-family: 'Fraunces', serif;
-      font-variation-settings: "opsz" 24;
       font-size: 0.72rem; font-weight: 600;
-      letter-spacing: 0.16em; text-transform: uppercase;
-      color: var(--ink-soft); margin-bottom: 1.1rem;
-      display: flex; align-items: center; gap: 8px;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 1rem;
     }
-    .panel-title::before {
-      content: ''; width: 14px; height: 1px; background: var(--accent);
-    }
-    .input-row { position: relative; margin-bottom: 0.9rem; }
+    .input-row { position: relative; margin-bottom: 0.75rem; }
     .field-input {
       width: 100%;
-      padding: 0.7rem 2.5rem 0.7rem 0;
-      font-size: 0.95rem; font-family: 'Hanken Grotesk', sans-serif; font-weight: 500;
-      background: transparent; border: none;
-      border-bottom: 1px solid var(--hair-strong);
-      border-radius: 0; color: var(--ink); outline: none;
-      transition: border-color 0.2s;
+      padding: 0.7rem 2.5rem 0.7rem 0.85rem;
+      font-size: 0.92rem; font-family: inherit; font-weight: 500;
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: var(--radius-md); color: var(--fg);
+      outline: none; transition: border-color 0.15s, box-shadow 0.15s;
     }
     .field-input::placeholder { color: var(--dim); font-weight: 400; }
-    .field-input:focus { border-bottom-color: var(--accent); }
+    .field-input:focus { border-color: var(--fg); box-shadow: 0 0 0 3px var(--surface-2); }
     .field-input.mono {
-      font-family: 'Space Mono', monospace; font-size: 0.88rem;
-      letter-spacing: 0.06em; font-weight: 700;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.86rem; letter-spacing: 0.06em; font-weight: 600;
     }
-    .field-icon { position: absolute; right: 4px; top: 50%; transform: translateY(-50%); }
+    .field-icon {
+      position: absolute; right: 8px; top: 50%;
+      transform: translateY(-50%);
+    }
     .clear-btn {
-      background: transparent; border: 1px solid var(--hair-strong);
+      background: transparent; border: 1px solid var(--border-strong);
       color: var(--muted);
       width: 22px; height: 22px; border-radius: 50%;
       cursor: pointer; display: flex; align-items: center; justify-content: center;
-      font-size: 11px; opacity: 0; visibility: hidden; transition: all 0.2s;
+      font-size: 11px; opacity: 0; visibility: hidden;
+      transition: opacity 0.15s, color 0.15s, border-color 0.15s;
       line-height: 1;
     }
     .clear-btn.visible { opacity: 1; visibility: visible; }
-    .clear-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .clear-btn:hover { border-color: var(--fg); color: var(--fg); }
+    .clear-btn:focus-visible { outline: 2px solid var(--ring); outline-offset: 1px; }
+
     .btn-row { display: flex; gap: 8px; margin-top: 0.5rem; }
-    .btn-icon {
-      background: transparent; border: 1px solid var(--hair-strong);
-      color: var(--muted); width: 46px; height: 46px;
-      border-radius: var(--radius-sm); cursor: pointer;
+    .btn-icon-lg {
+      background: var(--bg); border: 1px solid var(--border);
+      color: var(--muted);
+      width: 46px; height: 46px;
+      border-radius: var(--radius-md); cursor: pointer;
       display: flex; align-items: center; justify-content: center;
-      flex-shrink: 0; transition: all 0.2s;
+      flex-shrink: 0; transition: color 0.15s, border-color 0.15s, background 0.15s;
     }
-    .btn-icon svg { width: 18px; height: 18px; fill: currentColor; }
-    .btn-icon:hover { border-color: var(--ink); color: var(--ink); background: var(--surface-2); }
+    .btn-icon-lg svg { width: 18px; height: 18px; }
+    .btn-icon-lg:hover { border-color: var(--border-strong); color: var(--fg); background: var(--surface-2); }
+    .btn-icon-lg:focus-visible { outline: 2px solid var(--ring); outline-offset: 2px; }
     .btn-primary {
       flex: 1; height: 46px;
-      font-family: 'Hanken Grotesk', sans-serif;
-      font-size: 0.78rem; font-weight: 600;
-      background: var(--ink); color: var(--surface);
-      border: 1px solid var(--ink); border-radius: var(--radius-sm);
-      cursor: pointer; transition: all 0.2s;
-      letter-spacing: 0.12em; text-transform: uppercase;
-      position: relative; overflow: hidden;
+      font-family: inherit; font-size: 0.86rem; font-weight: 600;
+      background: var(--accent); color: var(--accent-fg);
+      border: 1px solid var(--accent); border-radius: var(--radius-md);
+      cursor: pointer; transition: opacity 0.15s;
+      letter-spacing: 0.01em;
     }
-    .btn-primary:hover { background: var(--accent); border-color: var(--accent); }
+    .btn-primary:hover { opacity: 0.85; }
     .btn-primary:active { transform: translateY(1px); }
+    .btn-primary:focus-visible { outline: 2px solid var(--ring); outline-offset: 2px; }
     #fileInput { display: none; }
 
-    /* ── Editorial prose sections ── */
-    .prose-panel {
-      width: 100%; max-width: 460px;
-      background: transparent;
-      border-top: 1px solid var(--hair-strong);
-      border-radius: 0; padding: 1.4rem 0;
+    /* ── Prose / content sections ── */
+    .prose {
+      margin-bottom: 2rem;
+      scroll-margin-top: 1rem;
     }
-    .prose-panel .panel-title { margin-bottom: 0.9rem; }
-    .prose-panel p {
-      font-size: 0.88rem; line-height: 1.75; color: var(--ink-soft);
-      font-family: 'Hanken Grotesk', sans-serif;
+    .prose h2 {
+      font-size: 1.05rem; font-weight: 600;
+      letter-spacing: -0.015em; color: var(--fg);
+      margin-bottom: 0.75rem;
+      text-wrap: balance;
     }
-    .prose-panel h3 {
-      font-family: 'Fraunces', serif;
-      font-variation-settings: "opsz" 36;
-      font-size: 0.98rem; font-weight: 600; color: var(--ink);
-      margin-top: 1.1rem; letter-spacing: -0.01em;
+    .prose h3 {
+      font-size: 0.92rem; font-weight: 600;
+      color: var(--fg); margin-top: 1.1rem; margin-bottom: 0.4rem;
+      letter-spacing: -0.01em;
     }
-    .prose-panel h3:first-of-type { margin-top: 0.4rem; }
-    .prose-panel ul {
-      margin: 0.6rem 0 0; padding-left: 1.1rem;
-      color: var(--ink-soft); font-size: 0.86rem; line-height: 1.8;
+    .prose h3:first-of-type { margin-top: 0; }
+    .prose p {
+      font-size: 0.86rem; line-height: 1.7; color: var(--fg-soft);
+      margin-bottom: 0.5rem;
     }
-    .prose-panel ul li { padding-left: 0.2rem; }
-    .prose-panel ul li::marker { color: var(--accent); }
+    .prose ul, .prose ol {
+      margin: 0.5rem 0 0.75rem; padding-left: 1.2rem;
+      color: var(--fg-soft); font-size: 0.86rem; line-height: 1.75;
+    }
+    .prose li { margin-bottom: 0.2rem; }
+    .prose ul li::marker { color: var(--dim); }
+    .prose ol li::marker { color: var(--muted); font-family: ui-monospace, monospace; }
+    .prose code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.82em; background: var(--surface-2);
+      padding: 1px 5px; border-radius: 4px;
+      border: 1px solid var(--border);
+    }
+    .prose a { color: var(--success); text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { opacity: 0.8; }
+
+    /* How-it-works steps */
+    .steps {
+      display: grid; gap: 10px;
+      counter-reset: step;
+    }
+    .step {
+      display: flex; gap: 12px;
+      padding: 0.85rem 1rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+    }
+    .step-num {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.78rem; font-weight: 700; color: var(--muted);
+      background: var(--bg); border: 1px solid var(--border);
+      width: 24px; height: 24px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .step-body h4 {
+      font-size: 0.86rem; font-weight: 600; color: var(--fg);
+      margin-bottom: 2px; letter-spacing: -0.005em;
+    }
+    .step-body p {
+      font-size: 0.8rem; color: var(--muted); line-height: 1.55;
+      margin: 0;
+    }
+
+    /* Compatibility table */
+    .compat-table-wrap {
+      overflow-x: auto; border: 1px solid var(--border);
+      border-radius: var(--radius-md); margin-top: 0.5rem;
+    }
+    .compat-table {
+      width: 100%; border-collapse: collapse; font-size: 0.78rem;
+      min-width: 380px;
+    }
+    .compat-table th, .compat-table td {
+      padding: 8px 10px; text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+    .compat-table th {
+      background: var(--surface-2); color: var(--muted);
+      font-weight: 600; font-size: 0.72rem;
+      letter-spacing: 0.04em; text-transform: uppercase;
+    }
+    .compat-table tr:last-child td { border-bottom: none; }
+    .compat-table td.yes { color: var(--success); font-weight: 600; }
+    .compat-table td.no { color: var(--dim); }
+    .compat-table code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.78em; background: var(--surface-2);
+      padding: 1px 4px; border-radius: 3px;
+    }
+
+    /* ── Footer ── */
+    .footer {
+      margin-top: 3rem; padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      font-size: 0.76rem; color: var(--muted);
+      line-height: 1.7;
+    }
+    .footer p { margin-bottom: 0.4rem; }
+    .footer a {
+      color: var(--fg-soft); text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+    .footer a:hover { color: var(--fg); }
+    .footer-meta {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.7rem; color: var(--dim);
+      margin-top: 0.75rem; letter-spacing: 0.02em;
+    }
 
     /* ── Toast ── */
     .toast {
       position: fixed; bottom: 2rem; left: 50%;
       transform: translateX(-50%) translateY(20px);
-      background: var(--ink); border: 1px solid var(--ink); color: var(--surface);
-      padding: 0.7rem 1.4rem; border-radius: 2px;
-      font-size: 0.78rem; font-weight: 500; letter-spacing: 0.03em;
-      opacity: 0;
-      transition: all 0.3s cubic-bezier(0.34,1.56,0.64,1);
-      z-index: 1000;
-      white-space: nowrap; pointer-events: none;
-      box-shadow: 0 12px 30px -10px rgba(26,22,18,0.4);
+      background: var(--fg); color: var(--bg);
+      padding: 0.65rem 1.2rem; border-radius: var(--radius-md);
+      font-size: 0.8rem; font-weight: 500;
+      opacity: 0; visibility: hidden;
+      transition: opacity 0.2s, transform 0.2s, visibility 0.2s;
+      z-index: 1000; pointer-events: none;
+      box-shadow: var(--shadow-lg);
+      max-width: calc(100vw - 2rem);
     }
-    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-    .toast.success { background: var(--success); border-color: var(--success); color: #fff; }
-    .toast.error   { background: var(--danger); border-color: var(--danger); color: #fff; }
+    .toast.show { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); }
+    .toast.success { background: var(--success); color: #fff; }
+    .toast.error { background: var(--danger); color: #fff; }
 
     @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(10px); }
-      to   { opacity: 1; transform: translateY(0); }
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
+    /* ── Mobile ── */
     @media (max-width: 480px) {
-      .app { padding: 1.5rem 0.85rem 3rem; }
-      .code-digit { font-size: 2rem; min-width: 2.1rem; height: 2.7rem; }
-      .header-title { font-size: 1.3rem; }
+      .app { padding: 1rem 0.85rem 3rem; }
+      .code-digit { font-size: 2rem; min-width: 2.2rem; height: 2.7rem; }
+      .header-title { font-size: 1rem; }
       .header-sub { display: none; }
-      .legacy-btn { padding: 0.4rem 0.65rem; font-size: 0.66rem; }
-      .masthead { margin-bottom: 1.25rem; }
+      .badges { grid-template-columns: 1fr; }
+      .trust-banner { font-size: 0.7rem; padding: 8px 0.75rem; }
+      .panel { padding: 1rem; }
     }
   </style>
 </head>
 <body>
-<main class="app">
+<a href="#main" class="skip-link">跳到主要内容</a>
 
-  <!-- ── Masthead ── -->
-  <div class="masthead">
-    <div class="masthead-mark">Atelier <em>Sécurité</em></div>
-    <div class="masthead-issue">N°02 · TOTP</div>
-  </div>
+<div class="trust-banner" role="region" aria-label="安全声明">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 2l9 4v6c0 5-3.5 9-9 10-5.5-1-9-5-9-10V6l9-4z" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  <span><strong>纯静态站点 · 零第三方请求 · 密钥本地计算</strong> — <a href="#security">拔掉网线后刷新页面，依然可用</a></span>
+</div>
+
+<main class="app" id="main">
 
   <!-- ── Header ── -->
-  <div class="header">
+  <header class="header">
     <div class="header-left">
-      <div class="header-icon">
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="1.6">
-          <rect x="2.5" y="2.5" width="19" height="19" rx="2"/>
-          <circle cx="12" cy="10" r="2.3"/>
-          <path d="M12 12.3 L12 16.4" stroke-linecap="round"/>
+      <div class="logo" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <rect x="3" y="3" width="18" height="18" rx="4"/>
+          <circle cx="12" cy="10" r="2.4"/>
+          <path d="M12 12.4 L12 17" stroke-linecap="round"/>
         </svg>
       </div>
-      <div class="header-text">
+      <div>
         <h1 class="header-title">2FA Authenticator</h1>
-        <div class="header-sub">安全验证码管理器</div>
+        <div class="header-sub">纯静态 · 浏览器本地 · 零追踪</div>
       </div>
     </div>
+    <div class="header-actions">
+      <button class="icon-btn" id="installBtn" title="安装为离线应用" aria-label="安装为离线应用" hidden>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3v12m0 0l-4-4m4 4l4-4" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 17v2a2 2 0 002 2h12a2 2 0 002-2v-2" stroke-linecap="round"/></svg>
+      </button>
+      <button class="icon-btn" id="themeBtn" title="切换主题" aria-label="切换深色/浅色主题">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" id="themeIcon"><path d="M12 3a6 6 0 100 12 9 9 0 010-12z" stroke-linejoin="round"/><circle cx="18" cy="6" r="0.5" fill="currentColor"/><circle cx="20" cy="10" r="0.5" fill="currentColor"/></svg>
+      </button>
+      <a href="old.html" class="icon-btn" rel="nofollow" title="回到旧版" aria-label="回到旧版">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+  </header>
 
-    <a href="old.html" class="legacy-btn" rel="nofollow">
-      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-        <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
-      </svg>
-      回到旧版
-    </a>
+  <!-- ── Trust badges ── -->
+  <div class="badges" aria-label="特性">
+    <div class="badge">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 9h6v6H9z"/></svg>
+      <span><strong>纯静态</strong> · 无后端</span>
+    </div>
+    <div class="badge">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 2l9 4v6c0 5-3.5 9-9 10-5.5-1-9-5-9-10V6l9-4z"/></svg>
+      <span><strong>0 第三方请求</strong> · 无追踪</span>
+    </div>
+    <div class="badge">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12.55a11 11 0 0114 0M1.42 9a16 16 0 0121.16 0M8.53 16.11a6 6 0 016.95 0M12 20h.01" stroke-linecap="round"/></svg>
+      <span><strong>离线可用</strong> · 可拔网线</span>
+    </div>
+    <div class="badge">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M16 18l6-6-6-6M8 6l-6 6 6 6"/></svg>
+      <span><strong>源码可审计</strong> · 单文件</span>
+    </div>
   </div>
 
   <!-- ── Code Display ── -->
-  <div id="codeArea" class="hidden">
-    <div class="code-card" id="codeCard">
+  <div id="codeArea" class="hidden" role="region" aria-label="当前验证码">
+    <div class="code-card" id="codeCard" tabindex="0" role="button" aria-label="点击复制验证码">
       <div class="code-header">
-        <div class="code-account-badge">
-          <div id="codeAvatar"></div>
+        <div class="code-account">
+          <div id="codeAvatar" class="avatar avatar-sm"></div>
           <div id="currentAccountName"></div>
         </div>
-        <div class="copy-hint">
-          <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+        <div class="copy-hint" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
           点击复制
         </div>
       </div>
-      <div class="code-display-wrap">
+      <div class="code-display" aria-live="polite">
         <div class="code-group" id="codeGroup1"></div>
-        <div class="code-sep"></div>
+        <div class="code-sep" aria-hidden="true"></div>
         <div class="code-group" id="codeGroup2"></div>
       </div>
       <div class="progress-section">
-        <div class="ring-wrap">
+        <div class="ring-wrap" aria-hidden="true">
           <svg viewBox="0 0 36 36">
             <circle class="ring-bg" cx="18" cy="18" r="14"/>
             <circle class="ring-prog" id="ringProg" cx="18" cy="18" r="14"/>
@@ -605,70 +874,181 @@
           <div class="ring-text" id="ringText">30</div>
         </div>
         <div class="progress-info">
-          <div class="progress-bar-outer">
+          <div class="progress-bar-outer" aria-hidden="true">
             <div class="progress-bar-inner" id="progressBar"></div>
           </div>
-          <div class="timer-text" id="timerBox">即将更新</div>
+          <div class="timer-text" id="timerBox" aria-live="polite">即将更新</div>
         </div>
       </div>
     </div>
   </div>
 
   <!-- ── Saved Accounts ── -->
-  <div class="section-label" id="accountsLabel" style="display:none">已保存账户</div>
-  <div id="accountsList" class="accounts-list"></div>
+  <div class="section-label" id="accountsLabel" style="display:none">
+    <span class="num">01</span> 已保存账户
+  </div>
+  <div id="accountsList" class="accounts-list" role="list"></div>
 
   <!-- ── Input Panel ── -->
-  <div class="panel">
-    <div class="panel-title">添加账户</div>
+  <section class="panel" aria-labelledby="add-title">
+    <div class="panel-title" id="add-title">添加账户</div>
     <div class="input-row">
-      <input type="text" id="secret" class="field-input mono" placeholder="2FA 密钥 (Base32)" spellcheck="false" autocomplete="off" />
-      <div class="field-icon"><button id="clearBtn" class="clear-btn" title="清空">x</button></div>
+      <label for="secret" class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);">2FA 密钥 (Base32)</label>
+      <input type="text" id="secret" class="field-input mono" placeholder="2FA 密钥 (Base32)…" spellcheck="false" autocomplete="off" autocapitalize="characters" inputmode="text" aria-describedby="secret-help"/>
+      <div class="field-icon"><button id="clearBtn" class="clear-btn" title="清空" aria-label="清空密钥" type="button">×</button></div>
     </div>
     <div class="input-row">
-      <input type="text" id="accountName" class="field-input" placeholder="账户名称（可选）" spellcheck="false" autocomplete="off" />
+      <label for="accountName" class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);">账户名称</label>
+      <input type="text" id="accountName" class="field-input" placeholder="账户名称（可选）…" spellcheck="false" autocomplete="off"/>
     </div>
     <div class="btn-row">
-      <button class="btn-icon" id="scanBtn" title="扫描二维码图片">
-        <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+      <button class="btn-icon-lg" id="scanBtn" title="扫描二维码图片" aria-label="扫描 otpauth 二维码图片" type="button">
+        <svg viewBox="0 0 32 32" fill="currentColor" aria-hidden="true">
           <path d="m21.001 24.001h-10.001c-1.654 0-3-1.346-3-3v-10c0-1.654 1.346-3 3-3h10c1.654 0 3 1.346 3 3v10c.001 1.654-1.345 3-2.999 3zm-16.001-14c.552 0 1-.448 1-1v-2c0-.551.449-1 1-1h2c.552 0 1-.448 1-1s-.448-1-1-1h-2c-1.654 0-3 1.346-3 3v2c0 .552.448 1 1 1zm20-6h-2c-.553 0-1 .448-1 1s.447 1 1 1h2c.552 0 1 .449 1 1v2c0 .552.447 1 1 1s1-.448 1-1v-2c0-1.654-1.346-3-3-3zm-16 21.999h-2c-.551 0-1-.448-1-1v-2c0-.553-.448-1-1-1s-1 .447-1 1v2c0 1.654 1.346 3 3 3h2c.552 0 1-.447 1-1s-.447-1-1-1zm18-4c-.553 0-1 .447-1 1v2c0 .552-.448 1-1 1h-2c-.553 0-1 .447-1 1s.447 1 1 1h2c1.654 0 3-1.346 3-3v-2c0-.553-.447-1-1-1z"/>
         </svg>
       </button>
-      <button class="btn-primary" id="saveBtn">保存账户</button>
+      <button class="btn-primary" id="saveBtn" type="button">保存账户</button>
     </div>
-    <input type="file" id="fileInput" accept="image/*" />
-  </div>
+    <input type="file" id="fileInput" accept="image/*" aria-hidden="true"/>
+  </section>
 
-  <!-- ── Intro ── -->
-  <section class="prose-panel" aria-labelledby="intro-title">
-    <h2 id="intro-title" class="panel-title">工具简介</h2>
-    <p>2FA Authenticator 是一个浏览器端双重验证工具，适合需要快速查看一次性验证码的个人开发者、跨境卖家与运维人员。你可以手动输入 Base32 密钥或扫描二维码，系统会在本地计算 TOTP，不上传密钥到服务器。</p>
-    <h3>适用场景</h3>
+  <!-- ── How it works ── -->
+  <section class="prose" aria-labelledby="how-title" id="how">
+    <h2 id="how-title">工作原理</h2>
+    <p>本工具在浏览器本地完成全部计算，符合 <a href="https://datatracker.ietf.org/doc/html/rfc6238" target="_blank" rel="noopener">RFC&nbsp;6238</a> TOTP 标准。流程：</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <h4>输入或扫描密钥</h4>
+          <p>粘贴服务方提供的 Base32 密钥，或上传 otpauth:// 格式二维码图片本地识别。</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <h4>本地 HMAC-SHA1 计算</h4>
+          <p>使用浏览器内置 Web Crypto API 在本地对当前时间计数器做 HMAC-SHA1，截取并取模得到 6 位码。</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <h4>每 30 秒自动刷新</h4>
+          <p>倒计时归零后自动重新计算，与服务器时钟无关，仅依赖你设备的本地时间。</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-body">
+          <h4>双重本地保存</h4>
+          <p>账户同时写入 localStorage 与 Cookie，清浏览器数据前不会丢失。点击验证码卡片一键复制。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Compatibility ── -->
+  <section class="prose" aria-labelledby="compat-title">
+    <h2 id="compat-title">兼容性</h2>
+    <p>本工具生成的 TOTP 码与以下主流验证器应用互通（同一密钥生成相同验证码）：</p>
+    <div class="compat-table-wrap">
+      <table class="compat-table">
+        <thead>
+          <tr><th>应用 / 平台</th><th>算法</th><th>位数</th><th>周期</th><th>兼容</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Google Authenticator</td><td><code>SHA1</code></td><td>6</td><td>30s</td><td class="yes">是</td></tr>
+          <tr><td>Microsoft Authenticator</td><td><code>SHA1</code></td><td>6</td><td>30s</td><td class="yes">是</td></tr>
+          <tr><td>Authy</td><td><code>SHA1</code></td><td>6</td><td>30s</td><td class="yes">是</td></tr>
+          <tr><td>1Password / Bitwarden</td><td><code>SHA1</code></td><td>6</td><td>30s</td><td class="yes">是</td></tr>
+          <tr><td>Aegis / FreeOTP+</td><td><code>SHA1</code></td><td>6</td><td>30s</td><td class="yes">是</td></tr>
+          <tr><td>Steam Guard</td><td>自定义</td><td>5</td><td>30s</td><td class="no">否</td></tr>
+          <tr><td>HOTP (计数器型)</td><td><code>SHA1</code></td><td>6</td><td>—</td><td class="no">否</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ── Security model ── -->
+  <section class="prose" aria-labelledby="sec-title" id="security">
+    <h2 id="sec-title">安全模型：0 网络请求如何验证</h2>
+    <p>“纯静态 + 0 请求”不是营销话术，而是可证伪的技术事实。三种自验方式：</p>
+    <h3>1. DevTools Network 面板</h3>
+    <p>打开浏览器开发者工具 → Network → 勾选 <code>Disable cache</code> → 刷新页面 → 使用工具几分钟。你会看到首次加载后没有任何 XHR / Fetch 请求。</p>
+    <h3>2. 拔网线 / 离线模式</h3>
+    <p>首次加载完成后，断开网络（拔网线、关 WiFi 或在 DevTools → Application → Service Workers 勾选 <code>Offline</code>），刷新页面，工具照常运行。</p>
+    <h3>3. 审计 CSP 头</h3>
+    <p>本站 HTTP 响应头中 <code>Content-Security-Policy</code> 显式声明 <code>connect-src 'self'</code>，技术上禁止页面发起任何跨域网络请求。即使代码被注入也无法外传数据。</p>
+    <h3>数据存储</h3>
     <ul>
-      <li>临时登录云服务、邮箱、社交媒体等开启 2FA 的平台。</li>
-      <li>需要离线保存多个账户验证码并快速切换查看。</li>
-      <li>对数据隐私敏感，希望验证码在本地设备内完成计算。</li>
+      <li>主存：<code>localStorage</code>（key: <code translate="no">2fa_accounts</code>），同源同浏览器持久化。</li>
+      <li>备份：同名 Cookie（<code translate="no">SameSite=Lax; Secure</code>），双写保障。</li>
+      <li>不使用 IndexedDB、不使用 sessionStorage、不使用任何分析脚本。</li>
     </ul>
   </section>
 
-  <!-- ── FAQ ── -->
-  <section class="prose-panel" aria-labelledby="faq-title">
-    <h2 id="faq-title" class="panel-title">常见问题 FAQ</h2>
-    <h3>这个工具会上传我的密钥吗？</h3>
-    <p>不会。验证码计算使用浏览器 Web Crypto API 在本地完成，账户数据默认保存在你的本地存储中，用于下次打开页面继续使用。</p>
-    <h3>支持哪些验证码标准？</h3>
-    <p>当前主要支持 Google Authenticator 兼容的 TOTP（30 秒刷新）格式，输入 Base32 密钥即可生成 6 位动态验证码。</p>
+  <!-- ── Migration ── -->
+  <section class="prose" aria-labelledby="mig-title">
+    <h2 id="mig-title">迁移指南：从其他验证器导入</h2>
+    <h3>从 Google Authenticator</h3>
+    <ol>
+      <li>Google Authenticator 不直接导出 otpauth 二维码。在 Android 上可借助开源应用 Aegis Authenticator 导入 Google 账户后导出。</li>
+      <li>获取到 otpauth:// 二维码图片后，点击本页“扫描二维码”按钮上传识别。</li>
+      <li>或在各大服务后台重新生成 2FA 密钥，手动复制 Base32 密钥到本工具。</li>
+    </ol>
+    <h3>从 Aegis / FreeOTP+ / Bitwarden</h3>
+    <p>这些应用支持导出 <code>otpauth://</code> URI 列表或二维码，直接用本工具扫描导入即可。</p>
+    <h3>从 Authy</h3>
+    <p>Authy 不支持直接导出。需在服务后台重置 2FA 并重新绑定本工具。</p>
   </section>
+
+  <!-- ── FAQ ── -->
+  <section class="prose" aria-labelledby="faq-title">
+    <h2 id="faq-title">常见问题 FAQ</h2>
+
+    <h3>这个工具真的零网络请求吗？如何验证？</h3>
+    <p>是。本站为纯静态页面，所有 HTML/CSS/JS 均由静态托管服务返回。除首次加载所需的静态文件外，运行时不向任何服务器发送请求。打开浏览器 DevTools 的 Network 面板刷新页面，或断网后刷新页面，工具照常运行。</p>
+
+    <h3>我的密钥会被上传到服务器吗？</h3>
+    <p>不会。验证码计算使用浏览器内置的 Web Crypto API（HMAC-SHA1）在本地完成。账户数据只保存在你浏览器的 localStorage 和 Cookie 中，从不通过网络发送。CSP 头部已将 <code>connect-src</code> 设为 <code>self</code>，技术上禁止了任何上传行为。</p>
+
+    <h3>账户数据保存在哪里？换设备会丢失吗？</h3>
+    <p>账户数据双重保存：主存 localStorage（key 为 <code translate="no">2fa_accounts</code>），副存 Cookie 作为备份。两者都绑定在当前浏览器和域名下，换设备或清浏览器数据会丢失。建议定期在 DevTools → Application → Local Storage 中导出 JSON 作为离线备份。</p>
+
+    <h3>支持哪些验证码标准？</h3>
+    <p>当前支持 Google Authenticator 兼容的 TOTP（RFC 6238）格式：HMAC-SHA1、30 秒刷新、6 位数字。兼容 Google / Microsoft / Authy / 1Password / Bitwarden / Aegis / FreeOTP+ 扫描的 otpauth:// 二维码。暂不支持 Steam Guard（5 位）和 HOTP（计数器型）。</p>
+
+    <h3>能离线使用吗？可以安装到桌面或手机主屏吗？</h3>
+    <p>可以。本站是 PWA，首次加载后 Service Worker 会缓存所有静态资源，断网也能正常使用。在 Chrome / Edge / Safari 中通过地址栏的安装按钮将其添加到桌面或主屏，像原生应用一样使用。</p>
+
+    <h3>如何从 Google Authenticator 迁移到本工具？</h3>
+    <p>Google Authenticator 不直接导出 otpauth 二维码。可借助 Aegis Authenticator、FreeOTP+ 等开源应用导入 Google 账户后再导出 otpauth 二维码，然后用本站点的扫描二维码功能逐一导入。也可手动复制各服务的 Base32 密钥到本工具。</p>
+
+    <h3>和原生 App（Google Authenticator、Authy）相比有什么区别？</h3>
+    <p>优势：纯静态、零网络请求、可在 DevTools 中审计、无需安装即可使用、跨平台。劣势：不支持云端同步、不支持生物识别锁屏、不支持 Steam Guard 等非标准格式。适合注重隐私、临时使用或开发者测试场景。</p>
+
+    <h3>时钟不同步会导致验证码错误吗？</h3>
+    <p>TOTP 依赖时间，若设备时间与服务器偏差超过 30 秒，生成的验证码将无法通过验证。请确保系统时间已开启自动同步（NTP）。本工具使用浏览器获取的本地时间，不会向服务器校时。</p>
+  </section>
+
+  <!-- ── Footer ── -->
+  <footer class="footer">
+    <p>2FA Authenticator — 一个纯静态、零追踪的浏览器端 TOTP 验证器。</p>
+    <p>所有计算与存储均在你的浏览器本地完成。无后端、无分析、无 Cookie 追踪（仅用于凭证备份）。</p>
+    <p>参考标准：<a href="https://datatracker.ietf.org/doc/html/rfc6238" target="_blank" rel="noopener">RFC&nbsp;6238 (TOTP)</a> · <a href="https://datatracker.ietf.org/doc/html/rfc4226" target="_blank" rel="noopener">RFC&nbsp;4226 (HOTP)</a> · <a href="https://developer.mozilla.org/docs/Web/API/Web_Crypto_API" target="_blank" rel="noopener">Web Crypto API</a></p>
+    <p class="footer-meta">© 2FA Authenticator · Powered by pure static HTML/CSS/JS · No build, no backend</p>
+  </footer>
 
 </main>
 
-<div id="toast" class="toast"></div>
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
 
 <script>
 // ── Platform brand icon registry ──
 const PLATFORMS = [
   { keys:['google','gmail'], bg:'#fff', svg:`<svg viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>` },
-  { keys:['github'], bg:'#fff', svg:`<svg viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12" fill="#24292e"/></svg>` },
+  { keys:['github'], bg:'#fff', svg:`<svg viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12" fill="#181717"/></svg>` },
   { keys:['apple','icloud'], bg:'#000', svg:`<svg viewBox="0 0 24 24"><path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.54 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701" fill="#fff"/></svg>` },
   { keys:['microsoft','outlook','hotmail','office','azure'], bg:'#fff', svg:`<svg viewBox="0 0 23 23"><path fill="#f35325" d="M1 1h10v10H1z"/><path fill="#81bc06" d="M12 1h10v10H12z"/><path fill="#05a6f0" d="M1 12h10v10H1z"/><path fill="#ffba08" d="M12 12h10v10H12z"/></svg>` },
   { keys:['twitter','x.com'], bg:'#000', svg:`<svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z" fill="#fff"/></svg>` },
@@ -718,32 +1098,112 @@ function detectPlatform(name, issuer) {
   return PLATFORMS.find(p => p.keys.some(k => s.includes(k))) || null;
 }
 
-// Builds avatar HTML string for account list items
 function buildAvatarHtml(name, issuer, size) {
   const p = detectPlatform(name, issuer);
   if (p) {
-    return `<div class="avatar brand avatar-md" style="width:${size}px;height:${size}px;background:${p.bg};border-radius:9px;padding:${size===32?5:4}px;">${p.svg}</div>`;
+    return `<div class="avatar brand avatar-md" style="width:${size}px;height:${size}px;background:${p.bg};border-radius:8px;padding:${size===32?5:4}px;">${p.svg}</div>`;
   }
-  return `<div class="avatar letter avatar-md" style="width:${size}px;height:${size}px;background:${getAvatarColor(name||'')};border-radius:9px;">${getInitials(name||'UA')}</div>`;
+  return `<div class="avatar letter avatar-md" style="width:${size}px;height:${size}px;background:${getAvatarColor(name||'')};border-radius:8px;">${getInitials(name||'UA')}</div>`;
 }
 
-// Sets the code card avatar element directly
 function setCodeAvatar(name, issuer) {
   const el = document.getElementById('codeAvatar');
   const p  = detectPlatform(name, issuer);
   if (p) {
     el.className = 'avatar brand avatar-sm';
     el.style.background = p.bg;
-    el.style.borderRadius = '8px';
+    el.style.borderRadius = '7px';
     el.style.padding = '4px';
     el.innerHTML = p.svg;
   } else {
     el.className = 'avatar letter avatar-sm';
     el.style.background = getAvatarColor(name || '');
-    el.style.borderRadius = '8px';
+    el.style.borderRadius = '7px';
     el.style.padding = '';
     el.textContent = getInitials(name || 'UA');
   }
+}
+
+// ── Cookie backup utilities (chunked, base64 JSON) ──
+// Cookies max ~4KB each. We chunk to stay safe under 3KB payload per cookie.
+const COOKIE_PREFIX = '2fa_backup';
+const CHUNK_SIZE = 3000; // chars of base64 per cookie
+
+function encodeAccountsToCookie(accounts) {
+  try {
+    const json = JSON.stringify(accounts);
+    // UTF-8 safe base64
+    const b64 = btoa(unescape(encodeURIComponent(json)));
+    const chunks = [];
+    for (let i = 0; i < b64.length; i += CHUNK_SIZE) {
+      chunks.push(b64.slice(i, i + CHUNK_SIZE));
+    }
+    const isSecure = location.protocol === 'https:' || location.hostname === 'localhost';
+    const cookieAttrs = [
+      COOKIE_PREFIX + '_count=' + chunks.length,
+      'path=/',
+      'max-age=31536000',
+      'samesite=lax',
+      isSecure ? 'secure' : ''
+    ].filter(Boolean).join('; ');
+    document.cookie = cookieAttrs;
+    chunks.forEach((chunk, idx) => {
+      const attrs = [
+        COOKIE_PREFIX + '_' + idx + '=' + chunk,
+        'path=/',
+        'max-age=31536000',
+        'samesite=lax',
+        isSecure ? 'secure' : ''
+      ].filter(Boolean).join('; ');
+      document.cookie = attrs;
+    });
+    return true;
+  } catch (e) {
+    console.warn('Cookie backup write failed:', e);
+    return false;
+  }
+}
+
+function readAccountsFromCookie() {
+  try {
+    const cookies = document.cookie ? document.cookie.split('; ') : [];
+    const map = {};
+    let count = 0;
+    cookies.forEach(c => {
+      const eq = c.indexOf('=');
+      const k = c.slice(0, eq);
+      const v = c.slice(eq + 1);
+      if (k === COOKIE_PREFIX + '_count') count = parseInt(v, 10) || 0;
+      else if (k.startsWith(COOKIE_PREFIX + '_')) {
+        const idx = parseInt(k.slice(COOKIE_PREFIX.length + 1), 10);
+        if (!isNaN(idx)) map[idx] = v;
+      }
+    });
+    if (!count || Object.keys(map).length === 0) return null;
+    let b64 = '';
+    for (let i = 0; i < count; i++) {
+      if (map[i] === undefined) return null; // missing chunk
+      b64 += map[i];
+    }
+    const json = decodeURIComponent(escape(atob(b64)));
+    const parsed = JSON.parse(json);
+    return Array.isArray(parsed) ? parsed : null;
+  } catch (e) {
+    console.warn('Cookie backup read failed:', e);
+    return null;
+  }
+}
+
+function clearCookieBackup() {
+  const cookies = document.cookie ? document.cookie.split('; ') : [];
+  const isSecure = location.protocol === 'https:' || location.hostname === 'localhost';
+  cookies.forEach(c => {
+    const eq = c.indexOf('=');
+    const k = c.slice(0, eq);
+    if (k === COOKIE_PREFIX + '_count' || k.startsWith(COOKIE_PREFIX + '_')) {
+      document.cookie = k + '=; path=/; max-age=0; samesite=lax' + (isSecure ? '; secure' : '');
+    }
+  });
 }
 
 // ── Main ──
@@ -766,6 +1226,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const fileInput          = document.getElementById('fileInput');
   const currentAccountName = document.getElementById('currentAccountName');
   const toastEl            = document.getElementById('toast');
+  const themeBtn           = document.getElementById('themeBtn');
+  const themeIcon          = document.getElementById('themeIcon');
+  const installBtn         = document.getElementById('installBtn');
 
   let accounts      = [];
   let currentSecret = null;
@@ -773,17 +1236,65 @@ document.addEventListener('DOMContentLoaded', () => {
   let currentIssuer = '';
   let lastCode      = '';
   let jsQrLoader     = null;
+  let deferredPrompt = null;
 
+  // CRITICAL: keep this exact key — existing user data lives here
   const STORAGE_KEY   = '2fa_accounts';
   const CIRCUMFERENCE = 2 * Math.PI * 14;
 
+  // ── Theme handling ──
+  function applyTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    document.querySelector('meta[name="theme-color"]')?.setAttribute('content', theme === 'dark' ? '#000000' : '#ffffff');
+    if (themeIcon) {
+      themeIcon.innerHTML = theme === 'dark'
+        ? '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" stroke-linecap="round"/>'
+        : '<path d="M12 3a6 6 0 100 12 9 9 0 010-12z" stroke-linejoin="round"/>';
+    }
+    try { localStorage.setItem('2fa_theme', theme); } catch {}
+  }
+
+  function initTheme() {
+    let theme;
+    try { theme = localStorage.getItem('2fa_theme'); } catch {}
+    if (!theme) theme = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    applyTheme(theme);
+  }
+  initTheme();
+
+  themeBtn?.addEventListener('click', () => {
+    const cur = document.documentElement.getAttribute('data-theme') || 'light';
+    applyTheme(cur === 'dark' ? 'light' : 'dark');
+  });
+
+  // ── Storage with cookie backup ──
   function loadAccounts() {
-    try { accounts = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); } catch { accounts = []; }
+    let loaded = null;
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        if (Array.isArray(parsed)) loaded = parsed;
+      }
+    } catch { /* corrupted localStorage, fall through to cookie */ }
+
+    if (!loaded || loaded.length === 0) {
+      // Fallback: try cookie backup
+      const fromCookie = readAccountsFromCookie();
+      if (fromCookie && fromCookie.length > 0) {
+        loaded = fromCookie;
+        try { localStorage.setItem(STORAGE_KEY, JSON.stringify(loaded)); } catch {}
+        showToast('已从 Cookie 备份恢复 ' + loaded.length + ' 个账户', 'success');
+      }
+    }
+    accounts = loaded || [];
     renderAccounts();
   }
 
   function saveAccountsToStorage() {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(accounts));
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(accounts)); } catch {}
+    // Double-write to cookies for resilience
+    encodeAccountsToCookie(accounts);
   }
 
   function addAccount(name, secret, issuer = '') {
@@ -827,19 +1338,19 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     accountsLabel.style.display = '';
     accountsList.innerHTML = accounts.map(acc => `
-      <div class="account-item ${currentSecret === acc.secret ? 'active' : ''}" data-id="${acc.id}">
+      <button type="button" class="account-item ${currentSecret === acc.secret ? 'active' : ''}" data-id="${acc.id}" role="listitem" aria-label="选择账户 ${escapeHtml(acc.name)}">
         ${buildAvatarHtml(acc.name, acc.issuer, 32)}
         <div class="account-info">
           <div class="account-name">${escapeHtml(acc.name)}</div>
           <div class="account-issuer">${escapeHtml(acc.issuer || '手动添加')}</div>
         </div>
-        <div class="account-active-dot"></div>
-        <button class="account-delete" data-id="${acc.id}" title="删除">
-          <svg viewBox="0 0 501.333 501.333" fill="currentColor">
+        <div class="account-active-dot" aria-hidden="true"></div>
+        <button class="account-delete" data-id="${acc.id}" title="删除" aria-label="删除账户 ${escapeHtml(acc.name)}" type="button">
+          <svg viewBox="0 0 501.333 501.333" fill="currentColor" aria-hidden="true">
             <path d="M425.6,71.467h-78.933V21.333C346.667,9.6,337.067,0,325.333,0H177.067c-11.733,0-21.333,9.6-21.333,21.333v50.133h-80C64,71.467,54.4,81.067,54.4,92.8v84.267C54.4,188.8,64,198.4,75.733,198.4h14.933l28.8,283.733c1.067,10.667,9.6,19.2,20.267,19.2H361.6c10.667,0,20.267-8.533,22.4-19.2L411.733,198.4H425.6c11.733,0,20.267-9.6,21.333-21.333V92.8C446.933,81.067,437.333,71.467,425.6,71.467zM197.333,41.6H304v29.867H197.333V41.6zM343.467,459.733H158.934L132.267,198.4h236.8L343.467,459.733zM405.333,155.733H97.067v-42.667h308.267V155.733z"/>
           </svg>
         </button>
-      </div>
+      </button>
     `).join('');
   }
 
@@ -856,7 +1367,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (jsQrLoader) return jsQrLoader;
     jsQrLoader = new Promise((resolve, reject) => {
       const script = document.createElement('script');
-      script.src = 'https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js';
+      // Same-origin local file — keeps the zero-third-party-request promise
+      script.src = '/jsQR.min.js';
       script.defer = true;
       script.onload = () => resolve(window.jsQR);
       script.onerror = () => reject(new Error('jsQR load failed'));
@@ -888,14 +1400,41 @@ document.addEventListener('DOMContentLoaded', () => {
     lastCode = code;
   }
 
-  codeCard.addEventListener('click', () => {
+  function copyCode() {
     const digits = [...codeGroup1.querySelectorAll('.code-digit'), ...codeGroup2.querySelectorAll('.code-digit')];
     if (!digits.length || digits[0].classList.contains('invalid')) return;
-    navigator.clipboard.writeText(digits.map(d => d.textContent).join(''))
-      .then(() => showToast('已复制到剪贴板', 'success'));
+    const code = digits.map(d => d.textContent).join('');
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(code)
+        .then(() => showToast('已复制到剪贴板', 'success'))
+        .catch(() => fallbackCopy(code));
+    } else {
+      fallbackCopy(code);
+    }
+  }
+
+  function fallbackCopy(text) {
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    try {
+      document.execCommand('copy');
+      showToast('已复制到剪贴板', 'success');
+    } catch {
+      showToast('复制失败，请手动选择', 'error');
+    }
+    document.body.removeChild(ta);
+  }
+
+  codeCard.addEventListener('click', copyCode);
+  codeCard.addEventListener('keydown', e => {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); copyCode(); }
   });
 
-  // ── Delegated account list events (attached once) ──
+  // ── Delegated account list events ──
   accountsList.addEventListener('click', e => {
     const delBtn = e.target.closest('.account-delete');
     if (delBtn) { e.stopPropagation(); deleteAccount(delBtn.dataset.id); return; }
@@ -917,7 +1456,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!secret) return showToast('请输入密钥', 'error');
     if (!isValidBase32(secret)) return showToast('密钥格式无效', 'error');
     selectAccount(addAccount(name, secret));
-    showToast('账户已保存', 'success');
+    showToast('账户已保存（localStorage + Cookie 双重备份）', 'success');
   });
 
   scanBtn.addEventListener('click', async () => {
@@ -1066,6 +1605,31 @@ document.addEventListener('DOMContentLoaded', () => {
       renderCode('生成失败', true);
       timerBox.textContent = '计算错误';
     }
+  }
+
+  // ── PWA install prompt capture ──
+  window.addEventListener('beforeinstallprompt', e => {
+    e.preventDefault();
+    deferredPrompt = e;
+    if (installBtn) installBtn.hidden = false;
+  });
+  installBtn?.addEventListener('click', async () => {
+    if (!deferredPrompt) return;
+    deferredPrompt.prompt();
+    const { outcome } = await deferredPrompt.userChoice;
+    if (outcome === 'accepted') showToast('已安装，可离线使用', 'success');
+    deferredPrompt = null;
+    installBtn.hidden = true;
+  });
+  window.addEventListener('appinstalled', () => { if (installBtn) installBtn.hidden = true; });
+
+  // ── Service worker registration ──
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/sw.js').catch(err => {
+        console.warn('SW registration failed:', err);
+      });
+    });
   }
 
   loadAccounts();

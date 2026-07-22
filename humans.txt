@@ -1,8 +1,16 @@
 /* TEAM */
 Product: 2FA Authenticator
 Site: https://2fa.userhali.com/
-Focus: Privacy-first, browser-based TOTP generation
+Focus: Privacy-first, pure-static, browser-based TOTP generation
+Standards: RFC 6238, RFC 4226, Web Crypto API
 
 /* SITE */
-Tech: Static HTML, CSS, JavaScript
-Standards: SEO metadata, JSON-LD, robots, sitemap, llms.txt
+Tech: Pure static HTML, CSS, vanilla JavaScript (no build step, no backend)
+Hosting: Vercel (static)
+PWA: Yes — installable, offline-capable via Service Worker
+Trust: Zero third-party network requests, CSP enforced (connect-src 'self')
+Storage: localStorage (primary) + Cookie (backup), same key 2fa_accounts
+
+/* NOTES */
+Legacy version kept at /old.html (noindex).
+Source is single-file index.html — auditable end-to-end.

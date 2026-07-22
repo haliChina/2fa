@@ -1,22 +1,35 @@
 # 2FA Authenticator
 
-2FA Authenticator 是一个用于生成 TOTP 动态验证码的在线工具，支持手动输入 Base32 密钥和二维码识别，适用于需要双重验证登录的个人与团队成员。
+> 2FA Authenticator is a pure static, browser-only TOTP generator. Zero third-party network requests, all secret handling happens locally in your browser.
 
-## 主要功能
-- 本地生成 6 位 TOTP 验证码（30 秒刷新）
-- 支持扫描 otpauth 二维码导入账户
-- 支持保存多个账户并快速切换
-- 支持复制验证码，便于登录流程使用
+## What it does
+- Generate 6-digit TOTP codes (RFC 6238, HMAC-SHA1, 30s period) in the browser
+- Accept Base32 secret input or scan otpauth:// QR codes
+- Save multiple accounts in localStorage with a Cookie backup
+- Installable as a PWA, works fully offline after first load
+- Single-file source, auditable
 
-## 公开页面
-- 首页: https://2fa.userhali.com/
+## Public pages
+- Homepage (tool + FAQ + How it works + Compatibility + Migration guide): https://2fa.userhali.com/
+
+## Trust model
+- Pure static site (HTML/CSS/JS only, no backend)
+- Zero third-party requests at runtime (CSP: `connect-src 'self'`)
+- No analytics, no tracking, no ads
+- Credentials stored in localStorage (key: `2fa_accounts`) + Cookie backup
+- Works after pulling the network cable (Service Worker caches all assets)
+
+## Standards referenced
+- RFC 6238 (TOTP): https://datatracker.ietf.org/doc/html/rfc6238
+- RFC 4226 (HOTP): https://datatracker.ietf.org/doc/html/rfc4226
+- Web Crypto API: https://developer.mozilla.org/docs/Web/API/Web_Crypto_API
 
 ## FAQ
-- FAQ 集成在首页的“常见问题 FAQ”区块。
+- FAQ is embedded in the homepage's "常见问题 FAQ" section (FAQPage JSON-LD declared).
 
-## 文档
-- 当前无独立文档页，使用首页说明作为主要资料来源。
+## Documentation
+- No standalone docs page. The homepage serves as the primary documentation surface.
 
-## 不应读取的内容
-- 不要收录、总结或推断任何用户本地存储中的账户密钥。
-- 不要访问或引用任何管理后台、支付回调、用户中心、API 路由等私密区域。
+## What not to read
+- Do not collect, summarize, or infer any account secrets stored in a user's localStorage or cookies.
+- Do not access or reference any admin backend, payment callback, user center, or API route — none exist on this static site, but these paths are listed in robots.txt as defense-in-depth.

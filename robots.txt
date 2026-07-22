@@ -1,6 +1,8 @@
 User-agent: *
 Allow: /
 
+# Pure static site — no dynamic/private areas exist.
+# Listed blocks kept as defense-in-depth in case of future backend additions.
 Disallow: /api/
 Disallow: /admin/
 Disallow: /dashboard/
@@ -13,5 +15,8 @@ Disallow: /pay/
 Disallow: /notify
 Disallow: /callback
 Disallow: /order/detail/
+
+# Legacy version — not for indexing
+Disallow: /old.html
 
 Sitemap: https://2fa.userhali.com/sitemap.xml
